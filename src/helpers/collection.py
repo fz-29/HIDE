@@ -1,7 +1,7 @@
 __author__ = 'Shubham Dokania'
 
 import copy
-# import numpy as np
+import numpy as np
 
 from point import Point
 
@@ -25,16 +25,59 @@ class Collection:
         return neighbour
 
 
-class Cluster:
-    def __init__(self, population=None, n_clusters=1, scoring_function=None):
-        self.population = population
-        self.n_clusters = n_clusters
+class Leaders:
+    """
+    The Leaders class just contains the co-ordinates for all the distributed leaders of the
+    clusters and the location of the global leader (which is usually the best scoring
+    individual or the individual with the best fitness score.). Aditionally, we can also store
+    the information about the best performing leader throughout the evolutionary process
+    in the best leader variable.
+    """
+    def __init__(self, dim=2, n_leaders=1, population=None, scoring_function=None):
+        self.n_leaders = n_leaders
+        self.dim = dim
         if scoring_function == None:
             self.scoring_function = None    # Pass a default scoring function
         else:
             self.scoring_function = scoring_function
-        self.clusters = []
-        self.cluster_centers = []
+        self.leaders = []
+        for ix in range(self.n_leaders):
+            pt = Point(dim=self.dim)
+            pt.generate_random_point()
+            pt.evaluate_point()
+            self.leaders.append(copy.deepcopy(pt))
+        self.population = population
+
+    def get_leader(self, pt):
+        """
+        This function accepts a point and computes the distance between
+        the point and all the leaders and returns the leader which has the minimum distance
+        from the point.
+        """
+        dist = []
+        for px in range(self.n_leaders):
+            dist.append(self.calc_distance(pt, self.leaders[px]))
+        dist = np.asarray(dist)
+        best = dist.argmin()
+        return best, self.leaders[best]
+
+    def calc_distance(self, p1, p2):
+        """
+        Calculate the distance between two point objects
+        using the distance metric defined in this function.
+        Currently using the eucledian distance (Subject to change).
+        """
+        coords_01 = np.asarray(p1.coords)
+        coords_02 = np.asarray(p2.coords)
+        
+        return np.sqrt(((coords_01 - coords_02)**2).sum())
+
+    def update_leaders(self, population):
+        """
+        Takes a population of points and computes new leader co-ordinates
+        based on the scoring function
+        """
+        pass
 
 
 if __name__ == '__main__':

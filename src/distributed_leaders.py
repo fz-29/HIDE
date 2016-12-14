@@ -4,12 +4,29 @@ import random
 import time
 
 from helpers.point import Point
-from helpers.collection import Collection, Cluster
+from helpers.collection import Collection, Leaders
 from helpers import get_best_point
+
+"""
+This algorithm consists of multiple leaders instead of one, which guides all the
+points. Here, the multiple leaders are selected based on their fitness among a group
+of agents in the population and each leader is then reinitialized after one time step
+based on their fitness and distance between points.
+
+Initially we create a leader object which consists the locations of all the leaders
+from the given set of points that lie on the population. Then, for each evolutioinary step,
+we compute distances (or scores) of points from each leader and decide which leader does the
+aggent fall under.
+After deciding the leader, we perform the optimization step which moves the point
+towards the leader, and we do this for all the agents in the population.
+After completion of one evolutionary step, we reinitialize the leaders based on the positions
+of the current leaders and agents. Using the scoring function, we create new clusters and the
+individual with the best fitness in each cluster is then called the new local leader.
+"""
 
 
 class DL(object):
-    def __init__(self, path_length=2.0, step_length=0.1, perturbation=0.4, num_iterations=10, dim=2, n_clusters=1):
+    def __init__(self, path_length=2.0, step_length=0.1, perturbation=0.4, num_iterations=10, dim=2, n_leaders=1):
         random.seed()
         self.dim = dim
         self.pathLength = path_length
@@ -17,9 +34,9 @@ class DL(object):
         self.perturbation = perturbation
         self.numIterations = num_iterations
         self.iteration = 0
-        self.n_clusters = n_clusters
-        self.clusters = Cluster()
+        self.n_leaders = n_leaders
         self.population = Collection(dim=dim)
+        self.leaders = Leaders(dim=self.dim, n_leaders=self.n_leaders, population=self.population)
 
     def generate_perturbation(self):
         p_vector = []
@@ -42,6 +59,7 @@ class DL(object):
 
         for ix in range(len(self.population.points)):
             curr_point = self.population.points[ix]
+            leader = self.leaders.get_leader(curr_point)[1]
             path_value = 0
             p_vec = self.generate_perturbation()
             new_points = []
