@@ -44,7 +44,6 @@ class Leaders:
         for ix in range(self.n_leaders):
             pt = Point(dim=self.dim)
             pt.generate_random_point()
-            pt.evaluate_point()
             self.leaders.append(copy.deepcopy(pt))
         self.population = population
 
@@ -75,9 +74,20 @@ class Leaders:
     def update_leaders(self, population):
         """
         Takes a population of points and computes new leader co-ordinates
-        based on the scoring function
+        based on the scoring function. This method saves all the new updates
+        to the leaders in it's own object and doesn't return any value or
+        object.
         """
-        pass
+        clusters = [[] for ix in range(self.n_leaders)]
+        scores = [[] for ix in range(self.n_leaders)]
+        for point in population.points:
+            allocation = self.get_leader(point)
+            clusters[allocation[0]].append(point)
+            scores[allocation[0]].append(point.z)
+
+        for sc in range(self.n_leaders):
+            leader_score = np.asarray(scores[sc])
+            self.leaders[sc] = clusters[sc][leader_score.argmin()]
 
 
 if __name__ == '__main__':

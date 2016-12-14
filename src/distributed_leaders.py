@@ -26,9 +26,11 @@ individual with the best fitness in each cluster is then called the new local le
 
 
 class DL(object):
-    def __init__(self, path_length=2.0, step_length=0.1, perturbation=0.4, num_iterations=10, dim=2, n_leaders=1):
+    def __init__(self, path_length=2.0, step_length=0.1, perturbation=0.4,
+        num_iterations=10, dim=2, n_leaders=1, algo_type=1):
         random.seed()
         self.dim = dim
+        self.algo_type = algo_type
         self.pathLength = path_length
         self.step = step_length
         self.perturbation = perturbation
@@ -45,7 +47,11 @@ class DL(object):
             if rnd < self.perturbation:
                 p_vector.append(1)
             else:
-                p_vector.append(0)
+                if self.algo_type == 1:
+                    vl = random.uniform(0.65, 0.77) * 1.11946659307 / self.dim
+                else:
+                    vl = 0
+                p_vector.append(vl)
 
         return p_vector
 
@@ -54,8 +60,7 @@ class DL(object):
         return top_point
 
     def iterate(self):
-        leader = self.get_leader()
-        # print(leader.z)
+        self.leaders.update_leaders(self.population)
 
         for ix in range(len(self.population.points)):
             curr_point = self.population.points[ix]
@@ -88,13 +93,13 @@ class DL(object):
 
 
 if __name__ == '__main__':
-    number_of_runs = 1
+    number_of_runs = 10
     val = 0
     print_time = True
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        soma = DL(num_iterations=1000, dim=2)
+        soma = DL(num_iterations=1000, dim=50, algo_type=0)
         val += soma.simulate()
         if print_time:
             print(time.clock() - start)

@@ -5,7 +5,7 @@ import numpy as np
 
 def evaluate(point):
     test = Function()
-    return test.sphere(point)
+    return test.ackley(point)
 
 
 class Function:

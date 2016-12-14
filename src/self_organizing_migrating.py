@@ -68,13 +68,13 @@ class SOMA(object):
 
 
 if __name__ == '__main__':
-    number_of_runs = 1
+    number_of_runs = 10
     val = 0
     print_time = True
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        soma = SOMA(num_iterations=1000, dim=2)
+        soma = SOMA(num_iterations=1000, dim=50)
         val += soma.simulate()
         if print_time:
             print(time.clock() - start)
