@@ -27,6 +27,14 @@ class Function:
 
         return (-20.0 * np.exp(-0.2 * np.sqrt(z1 / len(x)))) - np.exp(z2 / len(x)) + np.e + 20.0
 
+    def rastrigin(self, x):
+        v = 0
+
+        for i in range(len(x)):
+            v += (x[i] ** 2) - (10 * np.cos(2 * np.pi * x[i]))
+
+        return (10 * len(x)) + v
+
 
 if __name__ == '__main__':
     print("A collection of several Test functions for optimizations")

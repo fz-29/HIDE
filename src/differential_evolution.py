@@ -9,13 +9,14 @@ from helpers import get_best_point
 
 
 class DifferentialEvolution(object):
-    def __init__(self, num_iterations=10, CR=0.4, F=0.48, dim=2):
+    def __init__(self, num_iterations=10, CR=0.4, F=0.48, dim=2, population_size=10):
         random.seed()
         self.num_iterations = num_iterations
         self.iteration = 0
         self.CR = CR
         self.F = F
-        self.population = Collection(dim=dim)
+        self.population_size = population_size
+        self.population = Collection(dim=dim, num_points=self.population_size)
 
     def iterate(self):
         for ix in xrange(self.population.num_points):
@@ -56,7 +57,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        de = DifferentialEvolution(num_iterations=1000, dim=50, CR=0.4, F=0.48)
+        de = DifferentialEvolution(num_iterations=500, dim=5, CR=0.4, F=0.48, population_size=10)
         val += de.simulate()
         if print_time:
             print("")

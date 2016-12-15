@@ -9,7 +9,8 @@ from helpers import get_best_point
 
 
 class SOMA(object):
-    def __init__(self, path_length=2.0, step_length=0.1, perturbation=0.4, num_iterations=10, dim=2):
+    def __init__(self, path_length=2.0, step_length=0.1, perturbation=0.4,
+        num_iterations=10, dim=2, population_size=10):
         random.seed()
         self.dim = dim
         self.pathLength = path_length
@@ -17,7 +18,8 @@ class SOMA(object):
         self.perturbation = perturbation
         self.numIterations = num_iterations
         self.iteration = 0
-        self.population = Collection(dim=dim)
+        self.population_size = population_size
+        self.population = Collection(dim=dim, num_points=self.population_size)
 
     def generate_perturbation(self):
         p_vector = []
@@ -74,7 +76,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        soma = SOMA(num_iterations=1000, dim=50)
+        soma = SOMA(num_iterations=500, dim=5, population_size=50)
         val += soma.simulate()
         if print_time:
             print(time.clock() - start)

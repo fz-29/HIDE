@@ -26,8 +26,8 @@ individual with the best fitness in each cluster is then called the new local le
 
 
 class DL(object):
-    def __init__(self, path_length=2.0, step_length=0.1, perturbation=0.4,
-        num_iterations=10, dim=2, n_leaders=1, algo_type=1):
+    def __init__(self, path_length=2.00000, step_length=0.100000, perturbation=0.4,
+        num_iterations=10, dim=2, n_leaders=1, algo_type=1, population_size=20):
         random.seed()
         self.dim = dim
         self.algo_type = algo_type
@@ -37,7 +37,8 @@ class DL(object):
         self.numIterations = num_iterations
         self.iteration = 0
         self.n_leaders = n_leaders
-        self.population = Collection(dim=dim)
+        self.population_size = population_size
+        self.population = Collection(dim=dim, num_points=self.population_size)
         self.leaders = Leaders(dim=self.dim, n_leaders=self.n_leaders, population=self.population)
 
     def generate_perturbation(self):
@@ -45,10 +46,10 @@ class DL(object):
         for nx in range(self.dim):
             rnd = random.random()
             if rnd < self.perturbation:
-                p_vector.append(1)
+                p_vector.append(1.0000000)
             else:
                 if self.algo_type == 1:
-                    vl = random.uniform(0.65, 0.77) * 1.11946659307 / self.dim
+                    vl = random.uniform(0.650001, 0.770001) * 1.11946659307 / self.dim
                 else:
                     vl = 0
                 p_vector.append(vl)
@@ -61,11 +62,13 @@ class DL(object):
 
     def iterate(self):
         self.leaders.update_leaders(self.population)
+        # Generate a new population
+        # self.population = self.leaders.generate_population(self.population_size)
 
         for ix in range(len(self.population.points)):
             curr_point = self.population.points[ix]
             leader = self.leaders.get_leader(curr_point)[1]
-            path_value = 0
+            path_value = 0.0
             p_vec = self.generate_perturbation()
             new_points = []
             while path_value <= self.pathLength:
@@ -99,7 +102,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        soma = DL(num_iterations=1000, dim=50, algo_type=0)
+        soma = DL(num_iterations=500, dim=5, algo_type=1, n_leaders=5, population_size=50)
         val += soma.simulate()
         if print_time:
             print(time.clock() - start)

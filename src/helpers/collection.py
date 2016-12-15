@@ -7,14 +7,18 @@ from point import Point
 
 
 class Collection:
-    def __init__(self, dim=2, num_points=10, upper_limit=10, lower_limit=-10):
+    def __init__(self, dim=2, num_points=50, upper_limit=10, lower_limit=-10, init_generate=True):
         self.points = []
         self.num_points = num_points
-        for ix in xrange(num_points):
-            new_point = Point(dim=dim, upper_limit=upper_limit,
-                              lower_limit=lower_limit)
-            new_point.generate_random_point()
-            self.points.append(copy.deepcopy(new_point))
+        self.init_generate = init_generate
+        self.dim = dim
+        # If initial generation parameter is true, then generate collection
+        if self.init_generate == True:
+            for ix in xrange(num_points):
+                new_point = Point(dim=dim, upper_limit=upper_limit,
+                                  lower_limit=lower_limit)
+                new_point.generate_random_point()
+                self.points.append(copy.deepcopy(new_point))
 
     def generate_neighbour_collection(self):
         neighbour = copy.deepcopy(self)
@@ -58,7 +62,18 @@ class Leaders:
             dist.append(self.calc_distance(pt, self.leaders[px]))
         dist = np.asarray(dist)
         best = dist.argmin()
-        return best, self.leaders[best]
+        # return best, self.leaders[best]
+        avg_pt = Point(dim=self.dim)
+        for lx in range(self.n_leaders):
+            if lx == best:
+                continue
+            else:
+                for dx in range(self.dim):
+                    avg_pt.coords[dx] += self.leaders[lx].coords[dx]
+        for dx in range(self.dim):
+            avg_pt.coords[dx] = (avg_pt.coords[dx]/float(self.n_leaders-1)) - pt.coords[dx]
+        avg_pt.evaluate_point()
+        return best, avg_pt
 
     def calc_distance(self, p1, p2):
         """
@@ -78,16 +93,43 @@ class Leaders:
         to the leaders in it's own object and doesn't return any value or
         object.
         """
-        clusters = [[] for ix in range(self.n_leaders)]
-        scores = [[] for ix in range(self.n_leaders)]
+        # clusters = [[] for ix in range(self.n_leaders)]
+        # scores = [[] for ix in range(self.n_leaders)]
         for point in population.points:
             allocation = self.get_leader(point)
-            clusters[allocation[0]].append(point)
-            scores[allocation[0]].append(point.z)
+            lead = allocation[1]
+            if point.z <= lead.z:
+                # Update leader
+                self.leaders[allocation[0]] = copy.deepcopy(point)
+            else:
+                pass
 
-        for sc in range(self.n_leaders):
-            leader_score = np.asarray(scores[sc])
-            self.leaders[sc] = clusters[sc][leader_score.argmin()]
+    def generate_population(self, population_size=0):
+        clusters = []
+        total_fitness = 0.0
+
+        for lead in self.leaders:
+            total_fitness += lead.z
+
+        for lx in range(self.n_leaders):
+            lead = self.leaders[lx]
+            mean_lx = np.asarray(lead.coords)
+            cov_lx = np.eye(self.dim) * (lead.z / 1.0) #float(self.dim))
+            num_pts = lead.z / total_fitness
+            dist = np.random.multivariate_normal(mean_lx, cov_lx, num_pts)
+            for px in range(dist.shape[0]):
+                pt = dist[px]
+                new_pt = Point(dim=self.dim)
+                new_pt.coords = list(pt)
+                new_pt.evaluate_point()
+                cluster.append(new_pt)
+
+        # Create a new collection from these new points
+        coll = Collection(dim=self.dim, num_points=len(cluster), init_generate=False)
+        coll.points = cluster
+
+        # Return the generated population
+        return coll
 
 
 if __name__ == '__main__':

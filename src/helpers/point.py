@@ -10,7 +10,7 @@ from test_functions import evaluate
 class Point:
     def __init__(self, dim=2, upper_limit=10, lower_limit=-10):
         self.dim = dim
-        self.coords = [0] * dim
+        self.coords = [0.0 for dx in range(self.dim)]
         self.z = 0
         self.range_upper_limit = upper_limit
         self.range_lower_limit = lower_limit
