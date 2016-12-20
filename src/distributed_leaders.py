@@ -73,22 +73,6 @@ class DL(object):
         # self.population = self.leaders.generate_population(self.population_size)
 
         for ix in range(self.population.num_points):
-            """
-            curr_point = self.population.points[ix]
-            leader = self.leaders.get_leader(curr_point)[1]
-            path_value = 0.0
-            p_vec = self.generate_perturbation()
-            new_points = []
-            while path_value <= self.pathLength:
-                new_point = Point(dim=self.dim)
-                for dx in range(new_point.dim):
-                    new_point.coords[dx] = curr_point.coords[dx] + (leader.coords[dx] - curr_point.coords[
-                        dx]) * path_value * p_vec[dx]
-                new_point.evaluate_point()
-                new_points.append(new_point)
-                path_value += self.step
-            self.population.points[ix] = get_best_point(new_points)
-            """
             x = self.population.points[ix]
             a = self.leaders.get_leader(x)[1]
             [b, c] = random.sample(self.population.points, 2)
@@ -101,8 +85,8 @@ class DL(object):
             for iy in xrange(x.dim):
                 ri = random.random()
 
-                if ri < self.CR or iy == R:
-                    y.coords[iy] = l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy])
+                # if ri < self.CR or iy == R:
+                y.coords[iy] = l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy])
 
             y.evaluate_point()
             if y.z < x.z:

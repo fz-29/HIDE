@@ -83,19 +83,6 @@ class Leaders:
         dist = np.asarray(dist)
         best = dist.argmin()
         return best, self.leaders[best]
-        """
-        avg_pt = Point(dim=self.dim)
-        for lx in range(self.n_leaders):
-            if lx == best:
-                continue
-            else:
-                for dx in range(self.dim):
-                    avg_pt.coords[dx] += self.leaders[lx].coords[dx]
-        for dx in range(self.dim):
-            avg_pt.coords[dx] = (avg_pt.coords[dx]/float(self.n_leaders-1)) - pt.coords[dx]
-        avg_pt.evaluate_point()
-        return best, avg_pt
-        """
 
     def calc_distance(self, p1, p2):
         """

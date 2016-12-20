@@ -61,7 +61,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        de = DifferentialEvolution(num_iterations=1000, dim=50, CR=0.4, F=0.48, population_size=50, print_status=True)
+        de = DifferentialEvolution(num_iterations=1500, dim=50, CR=0.4, F=0.48, population_size=50, print_status=True)
         val += de.simulate()
         if print_time:
             print("")
