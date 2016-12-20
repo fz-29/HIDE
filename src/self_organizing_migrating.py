@@ -4,14 +4,15 @@ import random
 import time
 
 from helpers.point import Point
-from helpers.collection import Collection
+from helpers.collection import Collection, get_average_z
 from helpers import get_best_point
 
 
 class SOMA(object):
     def __init__(self, path_length=2.0, step_length=0.1, perturbation=0.4,
-        num_iterations=10, dim=2, population_size=10):
+        num_iterations=10, dim=2, population_size=10, print_status=False):
         random.seed()
+        self.print_status = print_status
         self.dim = dim
         self.pathLength = path_length
         self.step = step_length
@@ -61,6 +62,9 @@ class SOMA(object):
         # print('best value of: ' + str(pnt.z) + ' at ' + str(pnt.coords)
         print('Initial best value of: ' + str(pnt.z))
         while self.iteration < self.numIterations:
+            if self.print_status == True and self.iteration%50 == 0:
+                pnt = get_best_point(self.population.points)
+                print pnt.z, get_average_z(self.population)
             self.iterate()
         pnt = get_best_point(self.population.points)
         # print('best value of: ' + str(pnt.z) + ' at ' + str(pnt.coords)
@@ -76,7 +80,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        soma = SOMA(num_iterations=500, dim=5, population_size=50)
+        soma = SOMA(num_iterations=1000, dim=50, population_size=50, print_status=True)
         val += soma.simulate()
         if print_time:
             print(time.clock() - start)

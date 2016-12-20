@@ -11,7 +11,7 @@ class Point:
     def __init__(self, dim=2, upper_limit=10, lower_limit=-10):
         self.dim = dim
         self.coords = [0.0 for dx in range(self.dim)]
-        self.z = 0
+        self.evaluate_point()
         self.range_upper_limit = upper_limit
         self.range_lower_limit = lower_limit
 
@@ -21,7 +21,7 @@ class Point:
             co_od.append(np.random.uniform(self.range_lower_limit, self.range_upper_limit))
 
         self.coords = copy.deepcopy(co_od)
-        self.z = evaluate(self.coords)
+        self.evaluate_point()
 
     def generate_neighbour(self):
         for ix in xrange(self.dim):

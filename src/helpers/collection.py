@@ -6,6 +6,15 @@ import numpy as np
 from point import Point
 
 
+def get_average_z(population):
+    pts = population.points
+    avg = 0.0
+    for ix in pts:
+        avg += ix.z
+    avg = float(avg)/len(pts)
+    return avg
+
+
 class Collection:
     def __init__(self, dim=2, num_points=50, upper_limit=10, lower_limit=-10, init_generate=True):
         self.points = []
@@ -45,11 +54,22 @@ class Leaders:
         else:
             self.scoring_function = scoring_function
         self.leaders = []
-        for ix in range(self.n_leaders):
-            pt = Point(dim=self.dim)
-            pt.generate_random_point()
-            self.leaders.append(copy.deepcopy(pt))
-        self.population = population
+        self.parent_leader = Point(dim=self.dim)
+        self.parent_leader.generate_random_point()
+        self.generate_leaders(self.parent_leader)
+
+    def generate_leaders(self, center):
+        self.leaders = []
+        self.leaders.append(copy.deepcopy(center))
+        mu = np.asarray(center.coords)
+        cov = (center.z / self.dim) * np.eye(self.dim)
+
+        data_pts = np.random.multivariate_normal(mu, cov, self.n_leaders-1)
+        for ix in range(data_pts.shape[0]):
+            lead_pt = Point(dim=self.dim)
+            lead_pt.coords = list(data_pts[ix])
+            lead_pt.evaluate_point()
+            self.leaders.append(copy.deepcopy(lead_pt))
 
     def get_leader(self, pt):
         """
@@ -62,7 +82,8 @@ class Leaders:
             dist.append(self.calc_distance(pt, self.leaders[px]))
         dist = np.asarray(dist)
         best = dist.argmin()
-        # return best, self.leaders[best]
+        return best, self.leaders[best]
+        """
         avg_pt = Point(dim=self.dim)
         for lx in range(self.n_leaders):
             if lx == best:
@@ -74,6 +95,7 @@ class Leaders:
             avg_pt.coords[dx] = (avg_pt.coords[dx]/float(self.n_leaders-1)) - pt.coords[dx]
         avg_pt.evaluate_point()
         return best, avg_pt
+        """
 
     def calc_distance(self, p1, p2):
         """
@@ -104,8 +126,8 @@ class Leaders:
             else:
                 pass
 
-    def generate_population(self, population_size=0):
-        clusters = []
+    def generate_population(self, population_size=10):
+        cluster = []
         total_fitness = 0.0
 
         for lead in self.leaders:
@@ -114,8 +136,9 @@ class Leaders:
         for lx in range(self.n_leaders):
             lead = self.leaders[lx]
             mean_lx = np.asarray(lead.coords)
-            cov_lx = np.eye(self.dim) * (lead.z / 1.0) #float(self.dim))
-            num_pts = lead.z / total_fitness
+            # print lead.z, self.dim
+            cov_lx = np.eye(self.dim) * (lead.z) #   / float(self.dim))
+            num_pts = int((1.0 - (lead.z / total_fitness)) * population_size)
             dist = np.random.multivariate_normal(mean_lx, cov_lx, num_pts)
             for px in range(dist.shape[0]):
                 pt = dist[px]

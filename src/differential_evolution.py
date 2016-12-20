@@ -4,13 +4,14 @@ import copy
 import random
 import time
 
-from helpers.collection import Collection
+from helpers.collection import Collection, get_average_z
 from helpers import get_best_point
 
 
 class DifferentialEvolution(object):
-    def __init__(self, num_iterations=10, CR=0.4, F=0.48, dim=2, population_size=10):
+    def __init__(self, num_iterations=10, CR=0.4, F=0.48, dim=2, population_size=10, print_status=False):
         random.seed()
+        self.print_status = print_status
         self.num_iterations = num_iterations
         self.iteration = 0
         self.CR = CR
@@ -43,6 +44,9 @@ class DifferentialEvolution(object):
         pnt = get_best_point(self.population.points)
         print("Initial best value: " + str(pnt.z))
         while self.iteration < self.num_iterations:
+            if self.print_status == True and self.iteration%50 == 0:
+                pnt = get_best_point(self.population.points)
+                print pnt.z, get_average_z(self.population)
             self.iterate()
 
         pnt = get_best_point(self.population.points)
@@ -57,7 +61,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        de = DifferentialEvolution(num_iterations=500, dim=5, CR=0.4, F=0.48, population_size=10)
+        de = DifferentialEvolution(num_iterations=1000, dim=50, CR=0.4, F=0.48, population_size=50, print_status=True)
         val += de.simulate()
         if print_time:
             print("")
