@@ -80,6 +80,8 @@ class DL(object):
         for ix in range(self.population.num_points):
             x = self.population.points[ix]
             a = self.leaders.get_leader(x)[1]
+            a2 = self.leaders.get_leader_2(x)[1]
+
             [b, c] = random.sample(self.population.points, 2)
             while x == b or x == c:
                 [b, c] = random.sample(self.population.points, 2)
@@ -92,8 +94,15 @@ class DL(object):
 
                 # if ri < self.CR or iy == R:
                 # l = global best, a  = local leader, c = random 
-                y.coords[iy] = l.coords[iy] - self.F * (x.coords[iy] + c.coords[iy])
-                # y.coords[iy] = l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy])
+                # y.coords[iy] = l.coords[iy] - self.F * (x.coords[iy] + c.coords[iy])
+                # y.coords[iy] = l.coords[iy]  + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy])
+                # GOVT
+                y.coords[iy] = 1.0*self.CR*l.coords[iy]  + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy])
+
+                # 2 NEIGHBOURS
+                # y.coords[iy] = 1.0*self.CR*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) + (self.F) * (a2.coords[iy] +  x.coords[iy] - c.coords[iy]);
+                # poor
+                # y.coords[iy] = 1.0*self.CR*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) - (self.F) * (a2.coords[iy] -  x.coords[iy] - c.coords[iy]);
 
             y.evaluate_point()
             if y.z < x.z:
@@ -130,7 +139,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        soma = DL(num_iterations=100, dim=100, algo_type=0, n_leaders=5, population_size=25, print_status=True, visualize=False, stats_freq=1)
+        soma = DL(num_iterations=100, dim=2, algo_type=0, n_leaders=5, population_size=25, print_status=True, visualize=True, stats_freq=1)
         val += soma.simulate()
         if print_time:
             print(time.clock() - start)

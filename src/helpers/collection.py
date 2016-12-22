@@ -101,6 +101,21 @@ class Leaders:
 
         return best, self.leaders[best]
 
+    def get_leader_2(self, pt):
+        """
+        This function accepts a point and computes the distance between
+        the point and all the leaders and returns the leader which has the minimum distance
+        from the point.
+        """
+        dist = []
+        for px in range(self.n_leaders):
+            dist.append(self.calc_distance(pt, self.leaders[px]))
+        dist = np.asarray(dist)
+        best_i = dist.argmin()
+        np.delete(dist, best_i)
+        best_i = dist.argmin()
+        return best_i, self.leaders[best_i]
+
     def calc_distance(self, p1, p2):
         """
         Calculate the distance between two point objects
