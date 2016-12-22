@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 
 class PSO:
-    def __init__(self, dim=2, num_iterations=20, phi_p=2.05, phi_g=2.05, w=0.5, population_size=10, print_status=False, visualize=False):
+    def __init__(self, dim=2, num_iterations=20, phi_p=2.05, phi_g=2.05, w=0.7, population_size=10, print_status=False, visualize=False):
         random.seed()
         self.print_status = print_status
         self.visualize = visualize
@@ -38,7 +38,7 @@ class PSO:
                 rp = np.random.uniform(0, 1)
                 rg = np.random.uniform(0, 1)
 
-                current_point.velocity[_dim] = (self.w * current_point.velocity[_dim]) + self.phi_p * rp * (
+                current_point.velocity[_dim] = self.w * (current_point.velocity[_dim]) + self.phi_p * rp * (
                     current_point.p_best[_dim] - current_point.coords[_dim]) + self.phi_g * rg * (
                     g_best.coords[_dim] - current_point.coords[_dim])
 
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     for ix in xrange(n):
         start = time.clock()
         # pso = PSO(dim=10, numIterations=500, phi_p=-0.6485, phi_g=1.6475, w=-0.6031)
-        pso = PSO(dim=50, num_iterations=1000, phi_p=-0.6485, phi_g=1.6475, w=-0.6031, print_status=True, visualize=True, population_size=50)
+        pso = PSO(dim=20, num_iterations=1000, phi_p=-0.6485, phi_g=1.6475, w=-0.6031, print_status=True, visualize=False, population_size=30)
         val = pso.simulate()
         best.append(val)
         print (time.clock() - start)

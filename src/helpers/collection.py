@@ -98,6 +98,7 @@ class Leaders:
             dist.append(self.calc_distance(pt, self.leaders[px]))
         dist = np.asarray(dist)
         best = dist.argmin()
+
         return best, self.leaders[best]
 
     def calc_distance(self, p1, p2):
@@ -110,6 +111,7 @@ class Leaders:
         coords_02 = np.asarray(p2.coords)
         
         return np.sqrt(abs(((coords_01**2 - coords_02**2))**1).sum())
+        # return np.sqrt(abs((coords_01**2 - coords_02**2))).sum()
         # return np.sqrt(abs(((coords_01 - coords_02))**2).sum())
 
     def update_leaders(self, population):

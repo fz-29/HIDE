@@ -5,7 +5,7 @@ import numpy as np
 
 def evaluate(point):
     test = Function()
-    return test.rastrigin(point)
+    return test.sphere(point)
 
 
 class Function:
