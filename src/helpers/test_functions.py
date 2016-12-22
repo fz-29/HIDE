@@ -5,7 +5,7 @@ import numpy as np
 
 def evaluate(point):
     test = Function()
-    return test.xinSheXang(point)
+    return test.griewank(point)
 
 
 class Function:
@@ -100,7 +100,7 @@ class Function:
         return v
 
     def griewank(self, x):
-        z1 = self.multi_sphere(x) / 4000
+        z1 = self.sphere(x) / 4000
         z2 = 1
 
         for ix in xrange(len(x)):

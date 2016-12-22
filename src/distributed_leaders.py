@@ -135,7 +135,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        soma = DL(num_iterations=1000, dim=50, algo_type=0, n_leaders=5, population_size=25, print_status=True)
+        soma = DL(num_iterations=1000, dim=100, algo_type=0, n_leaders=5, population_size=25, print_status=True)
         val += soma.simulate()
         if print_time:
             print(time.clock() - start)
