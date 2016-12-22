@@ -96,11 +96,12 @@ class DL(object):
                 # l = global best, a  = local leader, c = random 
                 # y.coords[iy] = l.coords[iy] - self.F * (x.coords[iy] + c.coords[iy])
                 # y.coords[iy] = l.coords[iy]  + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy])
-                # GOVT
-                y.coords[iy] = 1.0*self.CR*l.coords[iy]  + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy])
-
-                # 2 NEIGHBOURS
-                # y.coords[iy] = 1.0*self.CR*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) + (self.F) * (a2.coords[iy] +  x.coords[iy] - c.coords[iy]);
+                if self.iteration > self.numIterations/4:
+                    #2 Neighbour
+                    y.coords[iy] = 1.0*self.CR*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) + (self.F) * (a2.coords[iy] +  x.coords[iy] - c.coords[iy])
+                else:
+                    #GOVT
+                    y.coords[iy] = 1.0*self.CR*l.coords[iy]  + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy])                    
                 # poor
                 # y.coords[iy] = 1.0*self.CR*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) - (self.F) * (a2.coords[iy] -  x.coords[iy] - c.coords[iy]);
 
@@ -122,7 +123,7 @@ class DL(object):
                 print self.iteration, pnt.z, get_average_z(self.population)
                 
             self.iterate()
-            if self.visualize == True and self.iteration%2==0:
+            if self.visualize == True and self.iteration%5==0:
                 get_visualization(self.population, plot_leaders=True, leaders=self.leaders)
                 
         pnt = get_best_point(self.population.points)
@@ -139,7 +140,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        soma = DL(num_iterations=100, dim=2, algo_type=0, n_leaders=5, population_size=25, print_status=True, visualize=True, stats_freq=1)
+        soma = DL(num_iterations=100, dim=50, algo_type=0, n_leaders=5, population_size=25, print_status=True, stats_freq=1)
         val += soma.simulate()
         if print_time:
             print(time.clock() - start)

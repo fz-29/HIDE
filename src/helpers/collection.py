@@ -127,7 +127,7 @@ class Leaders:
         
         return np.sqrt(abs(((coords_01**2 - coords_02**2))**1).sum())
         # return np.sqrt(abs((coords_01**2 - coords_02**2))).sum()
-        # return np.sqrt(abs(((coords_01 - coords_02))**2).sum())
+        #return np.sqrt(abs(((coords_01 - coords_02))**2).sum())
 
     def update_leaders(self, population):
         """
