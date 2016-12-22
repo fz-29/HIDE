@@ -4,7 +4,7 @@ import copy
 import random
 import time
 
-from helpers.collection import Collection, get_average_z
+from helpers.collection import Collection, get_average_z, get_visualization
 from helpers import get_best_point
 
 
@@ -48,6 +48,8 @@ class DifferentialEvolution(object):
                 pnt = get_best_point(self.population.points)
                 print pnt.z, get_average_z(self.population)
             self.iterate()
+            if self.visualize == True and self.iteration%2==0:
+                get_visualization(self.population)
 
         pnt = get_best_point(self.population.points)
         print("Final best value: " + str(pnt.z))

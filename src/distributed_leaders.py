@@ -5,7 +5,7 @@ import time
 import copy
 
 from helpers.point import Point
-from helpers.collection import Collection, Leaders, get_average_z
+from helpers.collection import Collection, Leaders, get_average_z, get_visualization
 from helpers import get_best_point
 
 import numpy as np
@@ -32,8 +32,9 @@ individual with the best fitness in each cluster is then called the new local le
 class DL(object):
     def __init__(self, path_length=1.0, step_length=0.1, perturbation=0.5,
         num_iterations=10, dim=2, n_leaders=1, algo_type=1, population_size=20, print_status=False,
-        CR=0.4, F=0.48):
+        CR=0.4, F=0.48, visualize=False):
         random.seed()
+        self.visualize = visualize
         self.print_status = print_status
         self.dim = dim
         self.CR = CR
@@ -110,14 +111,8 @@ class DL(object):
                 print pnt.z, get_average_z(self.population)
                 
             self.iterate()
-            # if self.print_status == True and self.iteration%50 == 0:
-            #     plt.ion()
-            #     plt.clf()
-                
-            #     plt.scatter([p.coords[0] for p in self.population.points], [p.z for p in self.population.points])
-            #     #plt.scatter([p.coords[0] for p in self.leaders.leaders], [p.z for p in self.leaders.leaders], c = 'r')
-
-            #     plt.pause(0.05)
+            if self.visualize == True and self.iteration%2==0:
+                get_visualization(self.population, plot_leaders=True, leaders=self.leaders)
                 
         pnt = get_best_point(self.population.points)
         # print('best value of: ' + str(pnt.z) + ' at ' + str(pnt.coords)
@@ -133,7 +128,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        soma = DL(num_iterations=1000, dim=100, algo_type=0, n_leaders=5, population_size=25, print_status=True)
+        soma = DL(num_iterations=100, dim=50, algo_type=0, n_leaders=5, population_size=25, print_status=True, visualize=True)
         val += soma.simulate()
         if print_time:
             print(time.clock() - start)

@@ -5,7 +5,7 @@ import numpy as np
 
 def evaluate(point):
     test = Function()
-    return test.griewank(point)
+    return test.rastrigin(point)
 
 
 class Function:

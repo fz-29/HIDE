@@ -2,6 +2,7 @@ __author__ = 'Shubham Dokania'
 
 import copy
 import numpy as np
+from matplotlib import pyplot as plt
 
 from point import Point
 
@@ -13,6 +14,21 @@ def get_average_z(population):
         avg += ix.z
     avg = float(avg)/len(pts)
     return avg
+
+def get_visualization(population, plot_leaders=False, leaders=None):
+    pts = population.points
+    plt.ion()
+    plt.clf()
+    plt.xlim(-10, 10)
+    plt.ylim(-10, 10)
+
+    for p in pts:
+        plt.scatter(p.coords[0], p.coords[1])
+    
+    if plot_leaders == True and leaders is not None:
+        for pt in leaders.leaders:
+            plt.scatter(pt.coords[0], pt.coords[1], c='r')
+    plt.pause(0.05)
 
 
 class Collection:
@@ -93,7 +109,8 @@ class Leaders:
         coords_01 = np.asarray(p1.coords)
         coords_02 = np.asarray(p2.coords)
         
-        return np.sqrt(((coords_01 - coords_02)**2).sum())
+        return np.sqrt(abs(((coords_01**2 - coords_02**2))**1).sum())
+        # return np.sqrt(abs(((coords_01 - coords_02))**2).sum())
 
     def update_leaders(self, population):
         """
