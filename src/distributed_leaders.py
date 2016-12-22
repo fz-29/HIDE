@@ -8,6 +8,9 @@ from helpers.point import Point
 from helpers.collection import Collection, Leaders, get_average_z
 from helpers import get_best_point
 
+import numpy as np
+import matplotlib.pyplot as plt
+
 """
 This algorithm consists of multiple leaders instead of one, which guides all the
 points. Here, the multiple leaders are selected based on their fitness among a group
@@ -71,7 +74,7 @@ class DL(object):
         l = get_best_point(self.population.points)
         # self.leaders.generate_leaders(pnt)
         # self.population = self.leaders.generate_population(self.population_size)
-
+        
         for ix in range(self.population.num_points):
             x = self.population.points[ix]
             a = self.leaders.get_leader(x)[1]
@@ -86,6 +89,7 @@ class DL(object):
                 ri = random.random()
 
                 # if ri < self.CR or iy == R:
+                # l = global best, a  = local leader, c = random 
                 y.coords[iy] = l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy])
 
             y.evaluate_point()
@@ -104,7 +108,17 @@ class DL(object):
             if self.print_status == True and self.iteration%50 == 0:
                 pnt = get_best_point(self.population.points)
                 print pnt.z, get_average_z(self.population)
+                
             self.iterate()
+            # if self.print_status == True and self.iteration%50 == 0:
+            #     plt.ion()
+            #     plt.clf()
+                
+            #     plt.scatter([p.coords[0] for p in self.population.points], [p.z for p in self.population.points])
+            #     #plt.scatter([p.coords[0] for p in self.leaders.leaders], [p.z for p in self.leaders.leaders], c = 'r')
+
+            #     plt.pause(0.05)
+                
         pnt = get_best_point(self.population.points)
         # print('best value of: ' + str(pnt.z) + ' at ' + str(pnt.coords)
         print('Final best value of: ' + str(pnt.z))
@@ -119,7 +133,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        soma = DL(num_iterations=1000, dim=50, algo_type=0, n_leaders=5, population_size=25, print_status=True)
+        soma = DL(num_iterations=1000, dim=20, algo_type=0, n_leaders=5, population_size=100, print_status=True)
         val += soma.simulate()
         if print_time:
             print(time.clock() - start)
