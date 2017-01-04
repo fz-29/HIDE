@@ -1,11 +1,29 @@
 __author__ = 'Shubham Dokania'
 
 import numpy as np
+import ctypes
 
 
 def evaluate(point):
     test = Function()
-    return test.ackley(point)
+    lib = ctypes.cdll.LoadLibrary('/home/shubham/all_projects/research/distributed_leader_optimaztion/src/helpers/objective.so')
+    func = lib.cec17_test_func
+
+    indata = np.asarray([point])
+
+    m = 1
+    n = indata.shape[1]
+    f_id = 3
+
+    outdata = np.zeros((1, m), dtype=np.double)
+    func(ctypes.c_void_p(indata.ctypes.data), ctypes.c_void_p(outdata.ctypes.data),n,m,f_id)
+    
+    if not np.isnan(outdata[0, 0]):
+        return outdata[0, 0]
+    else:
+        return 0.0
+
+    # return test.ackley(point)
 
 
 class Function:

@@ -9,7 +9,7 @@ from test_functions import evaluate
 
 
 class Point:
-    def __init__(self, dim=2, upper_limit=10, lower_limit=-10):
+    def __init__(self, dim=2, upper_limit=100, lower_limit=-100):
         self.dim = dim
         self.coords = [0.0 for dx in range(self.dim)]
         self.z = None

@@ -96,9 +96,16 @@ class DL(object):
                 # l = global best, a  = local leader, c = random 
                 # y.coords[iy] = l.coords[iy] - self.F * (x.coords[iy] + c.coords[iy])
                 # y.coords[iy] = l.coords[iy]  + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy])
-                if self.iteration > self.numIterations/4:
+
+                E_g = self.CR*l.coords[iy] + self.F*0.5*a.coords[iy]
+                E_l = self.F*0.5*a.coords[iy] - 0.1*x.coords[iy]
+
+                y.coords[iy] = E_g + E_l - 0.7*c.coords[iy]
+
+                if True: # self.iteration > self.numIterations/4:
                     #2 Neighbour
-                    y.coords[iy] = 1.0*self.CR*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) + (self.F) * (a2.coords[iy] +  x.coords[iy] - c.coords[iy])
+                    pass
+                    # y.coords[iy] = 1.0*self.CR*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) + (self.F) * (a2.coords[iy] +  x.coords[iy] - c.coords[iy])
                 else:
                     #GOVT
                     y.coords[iy] = 1.0*self.CR*l.coords[iy]  + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy])                    
@@ -140,7 +147,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        soma = DL(num_iterations=100, dim=50, algo_type=0, n_leaders=5, population_size=25, print_status=True, stats_freq=1)
+        soma = DL(num_iterations=100, dim=10, algo_type=0, n_leaders=5, population_size=25, print_status=True, stats_freq=1)
         val += soma.simulate()
         if print_time:
             print(time.clock() - start)

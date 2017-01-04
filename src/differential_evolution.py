@@ -9,8 +9,9 @@ from helpers import get_best_point
 
 
 class DifferentialEvolution(object):
-    def __init__(self, num_iterations=10, CR=0.4, F=0.48, dim=2, population_size=10, print_status=False):
+    def __init__(self, num_iterations=10, CR=0.4, F=0.48, dim=2, population_size=10, print_status=False, visualize=False):
         random.seed()
+        self.visualize = visualize
         self.print_status = print_status
         self.num_iterations = num_iterations
         self.iteration = 0
@@ -44,9 +45,9 @@ class DifferentialEvolution(object):
         pnt = get_best_point(self.population.points)
         print("Initial best value: " + str(pnt.z))
         while self.iteration < self.num_iterations:
-            if self.print_status == True and self.iteration%50 == 0:
+            if self.print_status == True and self.iteration%1 == 0:
                 pnt = get_best_point(self.population.points)
-                print pnt.z, get_average_z(self.population)
+                print self.iteration, pnt.z, get_average_z(self.population)
             self.iterate()
             if self.visualize == True and self.iteration%2==0:
                 get_visualization(self.population)
@@ -63,7 +64,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        de = DifferentialEvolution(num_iterations=1800, dim=100, CR=0.4, F=0.48, population_size=75, print_status=True)
+        de = DifferentialEvolution(num_iterations=100, dim=100, CR=0.4, F=0.48, population_size=75, print_status=True)
         val += de.simulate()
         if print_time:
             print("")
