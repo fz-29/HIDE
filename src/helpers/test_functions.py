@@ -36,7 +36,7 @@ class Function:
     def sphere(self, x):
         z = 0
         for i in xrange(len(x)):
-            z += (x[i] - 10.0) ** 2
+            z += (x[i]-10.0) ** 2
         return z
 
     def ackley(self, x):

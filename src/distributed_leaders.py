@@ -104,24 +104,26 @@ class DL(object):
                 # E_l = 0.1*a.coords[iy] - 0.05*x.coords[iy]
 
                 # y.coords[iy] = E_g + E_l - 0.5*c.coords[iy]
-                P = 0.75
-                if False: #self.iteration > self.numIterations/4:
-                    #2 Neighbour
-                    # pass
-                    if ri > P:
-                        y.coords[iy] = 0.99*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) + (self.F) * (a2.coords[iy] +  x.coords[iy] - c.coords[iy])
-                    else:
-                        y.coords[iy] = x.coords[iy]
+                P = 0.600
+                if False:
+                    pass
+                # if self.iteration <self.numIterations/5:
+                #     #2 Neighbour
+                #     # pass
+                #     if ri > P:
+                #         y.coords[iy] = 0.99*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) + (self.F) * (a2.coords[iy] +  x.coords[iy] - c.coords[iy])
+                #     else:
+                #         y.coords[iy] = x.coords[iy]
                 else:
                     #GOVT
                     # pass
                     if ri > P:
                         if self.vec == None:
-                            y.coords[iy] = (0.75)*l.coords[iy]  + (0.05)*a.coords[iy] - (0.3)*x.coords[iy] + (0.7)*c.coords[iy]
+                            y.coords[iy] = a.coords[iy] + self.F*(x.coords[iy] - c.coords[iy])
                         else:
                             y.coords[iy] = self.vec[0]*l.coords[iy]  + self.vec[1]*a.coords[iy] - self.vec[2]*x.coords[iy] - self.vec[3]*c.coords[iy]
                     else:
-                        y.coords[iy] = x.coords[iy]
+                        y.coords[iy] = l.coords[iy] + self.F*(a.coords[iy] - c.coords[iy])  #+ #self.F*(c.coords[iy])
                 # poor
                 # y.coords[iy] = 1.0*self.CR*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) - (self.F) * (a2.coords[iy] -  x.coords[iy] - c.coords[iy]);
 
