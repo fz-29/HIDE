@@ -104,9 +104,12 @@ class DL(object):
                 # E_l = 0.1*a.coords[iy] - 0.05*x.coords[iy]
 
                 # y.coords[iy] = E_g + E_l - 0.5*c.coords[iy]
-                P = 0.600
+                P = 0.3750
                 if False:
-                    pass
+                    if ri>P:
+                        y.coords[iy] = a.coords[iy] + self.F*(x.coords[iy]-c.coords[iy])
+                    else:
+                        y.coords[iy] = x.coords[iy] + self.F*(a.coords[iy] - c.coords[iy])
                 # if self.iteration <self.numIterations/5:
                 #     #2 Neighbour
                 #     # pass
@@ -117,9 +120,10 @@ class DL(object):
                 else:
                     #GOVT
                     # pass
+                    #y.coords[iy] = l.coords[iy] + self.F*(a.coords[iy] - x.coords[iy])
                     if ri > P:
                         if self.vec == None:
-                            y.coords[iy] = a.coords[iy] + self.F*(x.coords[iy] - c.coords[iy])
+                            y.coords[iy] = a.coords[iy] + self.F*(x.coords[iy] - c.coords[iy] ) 
                         else:
                             y.coords[iy] = self.vec[0]*l.coords[iy]  + self.vec[1]*a.coords[iy] - self.vec[2]*x.coords[iy] - self.vec[3]*c.coords[iy]
                     else:

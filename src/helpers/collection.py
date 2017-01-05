@@ -79,8 +79,8 @@ class Leaders:
         self.leaders = []
         self.leaders.append(copy.deepcopy(center))
         mu = np.asarray(center.coords)
-        # cov = (center.z / self.dim) * np.eye(self.dim)
-        cov = 25.0 * np.eye(self.dim)
+        #cov = (center.z / self.dim) * np.eye(self.dim)
+        cov = 45.0 * np.eye(self.dim)
 
         data_pts = np.random.multivariate_normal(mu, cov, self.n_leaders-1)
         for ix in range(data_pts.shape[0]):
