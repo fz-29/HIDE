@@ -32,8 +32,9 @@ individual with the best fitness in each cluster is then called the new local le
 class DL(object):
     def __init__(self, path_length=1.0, step_length=0.1, perturbation=0.5,
         num_iterations=10, dim=2, n_leaders=1, algo_type=1, population_size=20, print_status=False,
-        CR=0.4, F=0.48, visualize=False, stats_freq=10):
+        CR=0.4, F=0.48, visualize=False, stats_freq=10, vec=None):
         random.seed()
+        self.vec = vec
         self.visualize = visualize
         self.stats_freq = stats_freq
         self.print_status = print_status
@@ -76,7 +77,7 @@ class DL(object):
         l = get_best_point(self.population.points)
         # self.leaders.generate_leaders(pnt)
         # self.population = self.leaders.generate_population(self.population_size)
-        
+        shift = []
         for ix in range(self.population.num_points):
             x = self.population.points[ix]
             a = self.leaders.get_leader(x)[1]
@@ -97,25 +98,40 @@ class DL(object):
                 # y.coords[iy] = l.coords[iy] - self.F * (x.coords[iy] + c.coords[iy])
                 # y.coords[iy] = l.coords[iy]  + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy])
 
-                E_g = self.CR*l.coords[iy] + self.F*0.5*a.coords[iy]
-                E_l = self.F*0.5*a.coords[iy] - 0.1*x.coords[iy]
 
-                y.coords[iy] = E_g + E_l - 0.7*c.coords[iy]
 
-                if True: # self.iteration > self.numIterations/4:
+                # E_g = 0.4*l.coords[iy] + 0.1*a.coords[iy]
+                # E_l = 0.1*a.coords[iy] - 0.05*x.coords[iy]
+
+                # y.coords[iy] = E_g + E_l - 0.5*c.coords[iy]
+                P = 0.75
+                if False: #self.iteration > self.numIterations/4:
                     #2 Neighbour
-                    pass
-                    # y.coords[iy] = 1.0*self.CR*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) + (self.F) * (a2.coords[iy] +  x.coords[iy] - c.coords[iy])
+                    # pass
+                    if ri > P:
+                        y.coords[iy] = 0.99*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) + (self.F) * (a2.coords[iy] +  x.coords[iy] - c.coords[iy])
+                    else:
+                        y.coords[iy] = x.coords[iy]
                 else:
                     #GOVT
-                    y.coords[iy] = 1.0*self.CR*l.coords[iy]  + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy])                    
+                    # pass
+                    if ri > P:
+                        if self.vec == None:
+                            y.coords[iy] = (0.75)*l.coords[iy]  + (0.05)*a.coords[iy] - (0.3)*x.coords[iy] + (0.7)*c.coords[iy]
+                        else:
+                            y.coords[iy] = self.vec[0]*l.coords[iy]  + self.vec[1]*a.coords[iy] - self.vec[2]*x.coords[iy] - self.vec[3]*c.coords[iy]
+                    else:
+                        y.coords[iy] = x.coords[iy]
                 # poor
                 # y.coords[iy] = 1.0*self.CR*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) - (self.F) * (a2.coords[iy] -  x.coords[iy] - c.coords[iy]);
 
             y.evaluate_point()
+            shift.append((np.asarray(y.coords) - np.asarray(x.coords)).mean())
+
             if y.z < x.z:
                 self.population.points[ix] = y
         self.iteration += 1
+        # print np.asarray(shift).mean()
 
     def simulate(self):
         pnt = get_best_point(self.population.points)
@@ -137,6 +153,7 @@ class DL(object):
         # print('best value of: ' + str(pnt.z) + ' at ' + str(pnt.coords)
         print('Final best value of: ' + str(pnt.z))
         print("")
+        print(pnt.coords)
         return pnt.z
 
 
@@ -147,7 +164,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        soma = DL(num_iterations=100, dim=10, algo_type=0, n_leaders=5, population_size=25, print_status=True, stats_freq=1)
+        soma = DL(num_iterations=100, dim=10, algo_type=0, n_leaders=5, population_size=25, print_status=True, stats_freq=1, visualize=True)#, vec=[0.85, 1.0, 1.0, 1.0])
         val += soma.simulate()
         if print_time:
             print(time.clock() - start)

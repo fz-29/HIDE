@@ -4,26 +4,29 @@ import numpy as np
 import ctypes
 
 
-def evaluate(point):
+def evaluate(point, cec=False):
     test = Function()
-    lib = ctypes.cdll.LoadLibrary('/home/shubham/all_projects/research/distributed_leader_optimaztion/src/helpers/objective.so')
-    func = lib.cec17_test_func
+    if cec:
+        lib = ctypes.cdll.LoadLibrary('/home/shubham/all_projects/research/distributed_leader_optimaztion/src/helpers/objective.so')
+        func = lib.cec17_test_func
 
-    indata = np.asarray([point])
+        indata = np.asarray([point])
 
-    m = 1
-    n = indata.shape[1]
-    f_id = 3
+        m = 1
+        n = indata.shape[1]
+        f_id = 27
 
-    outdata = np.zeros((1, m), dtype=np.double)
-    func(ctypes.c_void_p(indata.ctypes.data), ctypes.c_void_p(outdata.ctypes.data),n,m,f_id)
+        outdata = np.zeros((1, m), dtype=np.double)
+        func(ctypes.c_void_p(indata.ctypes.data), ctypes.c_void_p(outdata.ctypes.data),n,m,f_id)
     
-    if not np.isnan(outdata[0, 0]):
-        return outdata[0, 0]
-    else:
-        return 0.0
-
-    # return test.ackley(point)
+        if not np.isnan(outdata[0, 0]):
+            return outdata[0, 0]
+        else:
+            print "AAAAAAAAAAAAAAAAAAAA"
+            return 0.0
+    # p = np.asarray([ 7.37045969,  4.43268017, -0.69326308, -0.32644465,  0.36939976, -5.02551476, -0.92192751,  3.74007331, -3.86954621,  6.12644629])
+    # point = np.asarray(point) + p
+    return test.sphere(point)
 
 
 class Function:
@@ -33,7 +36,7 @@ class Function:
     def sphere(self, x):
         z = 0
         for i in xrange(len(x)):
-            z += x[i] ** 2
+            z += (x[i] - 10.0) ** 2
         return z
 
     def ackley(self, x):

@@ -3,6 +3,7 @@ __author__ = 'Shubham Dokania'
 import copy
 import random
 import time
+import numpy as np
 
 from helpers.collection import Collection, get_average_z, get_visualization
 from helpers import get_best_point
@@ -21,6 +22,7 @@ class DifferentialEvolution(object):
         self.population = Collection(dim=dim, num_points=self.population_size)
 
     def iterate(self):
+        shift = []
         for ix in xrange(self.population.num_points):
             x = self.population.points[ix]
             [a, b, c] = random.sample(self.population.points, 3)
@@ -37,9 +39,13 @@ class DifferentialEvolution(object):
                     y.coords[iy] = a.coords[iy] + self.F * (b.coords[iy] - c.coords[iy])
 
             y.evaluate_point()
+            shift.append((np.asarray(y.coords) - np.asarray(x.coords)).mean())
+
             if y.z < x.z:
                 self.population.points[ix] = y
         self.iteration += 1
+        # print np.asarray(shift).mean()
+
 
     def simulate(self):
         pnt = get_best_point(self.population.points)
@@ -54,6 +60,7 @@ class DifferentialEvolution(object):
 
         pnt = get_best_point(self.population.points)
         print("Final best value: " + str(pnt.z))
+        print pnt.coords
         return pnt.z
 
 
@@ -64,7 +71,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        de = DifferentialEvolution(num_iterations=100, dim=100, CR=0.4, F=0.48, population_size=75, print_status=True)
+        de = DifferentialEvolution(num_iterations=100, dim=10, CR=0.4, F=0.48, population_size=50, print_status=True, visualize=True)
         val += de.simulate()
         if print_time:
             print("")

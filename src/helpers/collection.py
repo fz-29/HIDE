@@ -19,8 +19,9 @@ def get_visualization(population, plot_leaders=False, leaders=None):
     pts = population.points
     plt.ion()
     plt.clf()
-    plt.xlim(-10, 10)
-    plt.ylim(-10, 10)
+    R = 20
+    plt.xlim(-R, R)
+    plt.ylim(-R, R)
 
     for p in pts:
         plt.scatter(p.coords[0], p.coords[1])
@@ -78,7 +79,8 @@ class Leaders:
         self.leaders = []
         self.leaders.append(copy.deepcopy(center))
         mu = np.asarray(center.coords)
-        cov = (center.z / self.dim) * np.eye(self.dim)
+        # cov = (center.z / self.dim) * np.eye(self.dim)
+        cov = 25.0 * np.eye(self.dim)
 
         data_pts = np.random.multivariate_normal(mu, cov, self.n_leaders-1)
         for ix in range(data_pts.shape[0]):
@@ -94,8 +96,10 @@ class Leaders:
         from the point.
         """
         dist = []
+        val = []
         for px in range(self.n_leaders):
             dist.append(self.calc_distance(pt, self.leaders[px]))
+            val.append(self.leaders[px].z)
         dist = np.asarray(dist)
         best = dist.argmin()
 
@@ -125,9 +129,9 @@ class Leaders:
         coords_01 = np.asarray(p1.coords)
         coords_02 = np.asarray(p2.coords)
         
-        return np.sqrt(abs(((coords_01**2 - coords_02**2))**1).sum())
+        # return np.sqrt(abs(((coords_01**2 - coords_02**2))**1).sum())
         # return np.sqrt(abs((coords_01**2 - coords_02**2))).sum()
-        #return np.sqrt(abs(((coords_01 - coords_02))**2).sum())
+        return np.sqrt(abs(((coords_01 - coords_02))**2).sum())
 
     def update_leaders(self, population):
         """
@@ -158,7 +162,7 @@ class Leaders:
             lead = self.leaders[lx]
             mean_lx = np.asarray(lead.coords)
             # print lead.z, self.dim
-            cov_lx = np.eye(self.dim) * (lead.z) #   / float(self.dim))
+            cov_lx = np.eye(self.dim) * 10.0 #   / float(self.dim))
             num_pts = int((1.0 - (lead.z / total_fitness)) * population_size)
             dist = np.random.multivariate_normal(mean_lx, cov_lx, num_pts)
             for px in range(dist.shape[0]):

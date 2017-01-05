@@ -79,7 +79,7 @@ if __name__ == '__main__':
     for ix in xrange(n):
         start = time.clock()
         # pso = PSO(dim=10, numIterations=500, phi_p=-0.6485, phi_g=1.6475, w=-0.6031)
-        pso = PSO(dim=20, num_iterations=1000, phi_p=-0.6485, phi_g=1.6475, w=-0.6031, print_status=True, visualize=False, population_size=30)
+        pso = PSO(dim=10, num_iterations=1000, phi_p=-0.6485, phi_g=1.6475, w=-0.6031, print_status=True, visualize=False, population_size=30)
         val = pso.simulate()
         best.append(val)
         print (time.clock() - start)
