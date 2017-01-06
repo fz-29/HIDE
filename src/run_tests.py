@@ -10,7 +10,7 @@ if __name__ == '__main__':
 	# print sys.argv
 	# exit(0)
 
-	DIM = 10
+	DIM = int(sys.argv[2])
 	ITER = 500
 	n_runs = 50
 	F_ID = int(sys.argv[1])

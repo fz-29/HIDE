@@ -169,7 +169,7 @@ class Leaders:
             dist = np.random.multivariate_normal(mean_lx, cov_lx, num_pts)
             for px in range(dist.shape[0]):
                 pt = dist[px]
-                new_pt = Point(dim=self.dim, f_id=f_id)
+                new_pt = Point(dim=self.dim, f_id=self.f_id)
                 new_pt.coords = list(pt)
                 new_pt.evaluate_point()
                 cluster.append(new_pt)
