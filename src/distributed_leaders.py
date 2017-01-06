@@ -32,8 +32,9 @@ individual with the best fitness in each cluster is then called the new local le
 class DL(object):
     def __init__(self, path_length=1.0, step_length=0.1, perturbation=0.5,
         num_iterations=10, dim=2, n_leaders=1, algo_type=1, population_size=20, print_status=False,
-        CR=0.4, F=0.48, visualize=False, stats_freq=10, vec=None):
+        CR=0.4, F=0.48, visualize=False, stats_freq=10, vec=None, f_id=1):
         random.seed()
+        self.f_id = f_id
         self.vec = vec
         self.visualize = visualize
         self.stats_freq = stats_freq
@@ -49,8 +50,9 @@ class DL(object):
         self.iteration = 0
         self.n_leaders = n_leaders
         self.population_size = population_size
-        self.leaders = Leaders(dim=self.dim, n_leaders=self.n_leaders)
+        self.leaders = Leaders(dim=self.dim, n_leaders=self.n_leaders, f_id=f_id)
         self.population = self.leaders.generate_population(population_size=self.population_size)
+        self.data = []
 
     def generate_perturbation(self):
         p_vector = []
@@ -75,6 +77,7 @@ class DL(object):
         self.leaders.update_leaders(self.population)
         # Generate a new population
         l = get_best_point(self.population.points)
+        self.data.append(l.z)
         # self.leaders.generate_leaders(pnt)
         # self.population = self.leaders.generate_population(self.population_size)
         shift = []
@@ -160,9 +163,10 @@ class DL(object):
         pnt = get_best_point(self.population.points)
         # print('best value of: ' + str(pnt.z) + ' at ' + str(pnt.coords)
         print('Final best value of: ' + str(pnt.z))
+        self.data.append(pnt.z)
         print("")
         print(pnt.coords)
-        return pnt.z
+        return pnt.z, np.asarray(self.data)
 
 
 if __name__ == '__main__':
@@ -172,8 +176,8 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        soma = DL(num_iterations=100, dim=10, algo_type=0, n_leaders=5, population_size=25, print_status=True, stats_freq=1, visualize=True)#, vec=[0.85, 1.0, 1.0, 1.0])
-        val += soma.simulate()
+        soma = DL(num_iterations=200, dim=10, algo_type=0, n_leaders=5, population_size=25, print_status=True, stats_freq=10, visualize=False)#, vec=[0.85, 1.0, 1.0, 1.0])
+        val += soma.simulate()[0]
         if print_time:
             print(time.clock() - start)
 

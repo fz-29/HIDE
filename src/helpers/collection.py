@@ -33,8 +33,9 @@ def get_visualization(population, plot_leaders=False, leaders=None):
 
 
 class Collection:
-    def __init__(self, dim=2, num_points=50, upper_limit=10, lower_limit=-10, init_generate=True):
+    def __init__(self, dim=2, num_points=50, upper_limit=10, lower_limit=-10, init_generate=True, f_id=1):
         self.points = []
+        self.f_id = f_id
         self.num_points = num_points
         self.init_generate = init_generate
         self.dim = dim
@@ -42,7 +43,7 @@ class Collection:
         if self.init_generate == True:
             for ix in xrange(num_points):
                 new_point = Point(dim=dim, upper_limit=upper_limit,
-                                  lower_limit=lower_limit)
+                                  lower_limit=lower_limit, f_id=self.f_id)
                 new_point.generate_random_point()
                 self.points.append(copy.deepcopy(new_point))
 
@@ -63,8 +64,9 @@ class Leaders:
     the information about the best performing leader throughout the evolutionary process
     in the best leader variable.
     """
-    def __init__(self, dim=2, n_leaders=1, population=None, scoring_function=None):
+    def __init__(self, dim=2, n_leaders=1, population=None, scoring_function=None, f_id=1):
         self.n_leaders = n_leaders
+        self.f_id = f_id
         self.dim = dim
         if scoring_function == None:
             self.scoring_function = None    # Pass a default scoring function
@@ -84,7 +86,7 @@ class Leaders:
 
         data_pts = np.random.multivariate_normal(mu, cov, self.n_leaders-1)
         for ix in range(data_pts.shape[0]):
-            lead_pt = Point(dim=self.dim)
+            lead_pt = Point(dim=self.dim, f_id=self.f_id)
             lead_pt.coords = list(data_pts[ix])
             lead_pt.evaluate_point()
             self.leaders.append(copy.deepcopy(lead_pt))
@@ -167,7 +169,7 @@ class Leaders:
             dist = np.random.multivariate_normal(mean_lx, cov_lx, num_pts)
             for px in range(dist.shape[0]):
                 pt = dist[px]
-                new_pt = Point(dim=self.dim)
+                new_pt = Point(dim=self.dim, f_id=f_id)
                 new_pt.coords = list(pt)
                 new_pt.evaluate_point()
                 cluster.append(new_pt)

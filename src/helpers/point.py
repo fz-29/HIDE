@@ -9,8 +9,9 @@ from test_functions import evaluate
 
 
 class Point:
-    def __init__(self, dim=2, upper_limit=10, lower_limit=-10):
+    def __init__(self, dim=2, upper_limit=10, lower_limit=-10, f_id=1):
         self.dim = dim
+        self.f_id = f_id
         self.coords = [0.0 for dx in range(self.dim)]
         self.z = None
         self.range_upper_limit = upper_limit
@@ -45,8 +46,8 @@ class Point:
         self.z = evaluate(self.coords)
 
     def evaluate_point(self):
-        self.z = evaluate(self.coords)
-        self.p_z = evaluate(self.p_best)
+        self.z = evaluate(self.coords, f_id=self.f_id)
+        self.p_z = evaluate(self.p_best, f_id=self.f_id)
 
     def clamp_velocity(self):
         for ix in xrange(self.dim):
