@@ -26,7 +26,7 @@ def evaluate(point, cec=False):
             return 0.0
     #p = np.asarray([ 7.37045969,  4.43268017, -0.69326308, -0.32644465,  0.36939976, -5.02551476, -0.92192751,  3.74007331, -3.86954621,  6.12644629])
     #point = np.asarray(point) + p
-    return test.ackley(point)
+    return test.rosenbrock(point)
 
 
 class Function:
@@ -43,8 +43,8 @@ class Function:
         z1, z2 = 0, 0
 
         for i in xrange(len(x)):
-            z1 += (x[i] -5.0)** 2
-            z2 += np.cos(2.0 * np.pi * (x[i]-15.0))
+            z1 += (x[i])** 2
+            z2 += np.cos(2.0 * np.pi * x[i])
 
         return (-20.0 * np.exp(-0.2 * np.sqrt(z1 / len(x)))) - np.exp(z2 / len(x)) + np.e + 20.0
 
