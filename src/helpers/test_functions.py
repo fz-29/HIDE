@@ -4,10 +4,10 @@ import numpy as np
 import ctypes
 
 
-def evaluate(point, cec=True, f_id=1):
+def evaluate(point, cec=True, f_id=6):
     test = Function()
     if cec:
-        lib = ctypes.cdll.LoadLibrary('/home/shubham/all_projects/research/distributed_leader_optimaztion/src/helpers/objective.so')
+        lib = ctypes.cdll.LoadLibrary('helpers/objective.so')
         func = lib.cec17_test_func
 
         indata = np.asarray([point])
