@@ -76,7 +76,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        de = DE(num_iterations=2000, dim=10, CR=0.4, F=0.48, population_size=25, print_status=True, visualize=False)
+        de = DE(num_iterations=2000, dim=50, CR=0.4, F=0.48, population_size=25, print_status=True, visualize=False)
         val += de.simulate()[0]
         if print_time:
             print("")
