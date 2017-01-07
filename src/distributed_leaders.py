@@ -126,10 +126,15 @@ class DL(object):
                     # pass
                     #y.coords[iy] = l.coords[iy] + self.F*(a.coords[iy] - x.coords[iy])
                     if ri > P:
-                        if self.vec == None:
+                        P1 = 0.02
+                        pr = np.random.random()
+                        pr2 = np.random.random()
+                        if self.iteration>P/3*self.numIterations:
                             y.coords[iy] = a.coords[iy] + self.F*(x.coords[iy] - c.coords[iy] ) 
                         else:
-                            y.coords[iy] = self.vec[0]*l.coords[iy]  + self.vec[1]*a.coords[iy] - self.vec[2]*x.coords[iy] - self.vec[3]*c.coords[iy]
+                            y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy]-c.coords[iy])   
+                            ##  y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy]-c.coords[iy])   
+                            #y.coords[iy] = self.vec[0]*l.coords[iy]  + self.vec[1]*a.coords[iy] - self.vec[2]*x.coords[iy] - self.vec[3]*c.coords[iy]
                     #elif ri>2*P:
                         #y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy]-c.coords[iy])
                     else:
