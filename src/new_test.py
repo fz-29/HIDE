@@ -130,8 +130,8 @@ class DL(object):
                             y.coords[iy] = a.coords[iy] + self.F*(x.coords[iy] - c.coords[iy] ) 
                         else:
                             y.coords[iy] = self.vec[0]*l.coords[iy]  + self.vec[1]*a.coords[iy] - self.vec[2]*x.coords[iy] - self.vec[3]*c.coords[iy]
-                    #elif ri>2*P:
-                        #y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy]-c.coords[iy])
+                    elif ri>2*P:
+                        y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy]-c.coords[iy])
                     else:
                         y.coords[iy] = l.coords[iy] + self.F*(a.coords[iy] - c.coords[iy])  #+ #self.F*(c.coords[iy])
                 # poor
@@ -177,7 +177,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        soma = DL(num_iterations=5000, dim=50, algo_type=0, n_leaders=5, population_size=25, print_status=True, stats_freq=100, visualize=False)#, vec=[0.85, 1.0, 1.0, 1.0])
+        soma = DL(num_iterations=200, dim=50, algo_type=0, n_leaders=5, population_size=25, print_status=True, stats_freq=10, visualize=False, f_id=2)
         val += soma.simulate()[0]
         if print_time:
             print(time.clock() - start)

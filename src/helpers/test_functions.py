@@ -4,17 +4,17 @@ import numpy as np
 import ctypes
 
 
-def evaluate(point, cec=True, f_id=1):
+def evaluate(point, cec=True, f_id=24):
     test = Function()
     if cec:
-        lib = ctypes.cdll.LoadLibrary('/home/shubham/all_projects/research/distributed_leader_optimaztion/src/helpers/objective.so')
+        lib = ctypes.cdll.LoadLibrary('/home/hppcs/distributed_leader_optimaztion/src/helpers/objective.so')
         func = lib.cec17_test_func
 
         indata = np.asarray([point])
 
         m = 1
         n = indata.shape[1]
-        # f_id = f_id
+        f_id = 1
 
         outdata = np.zeros((1, m), dtype=np.double)
         func(ctypes.c_void_p(indata.ctypes.data), ctypes.c_void_p(outdata.ctypes.data),n,m,f_id)
@@ -26,7 +26,7 @@ def evaluate(point, cec=True, f_id=1):
             return 0.0
     #p = np.asarray([ 7.37045969,  4.43268017, -0.69326308, -0.32644465,  0.36939976, -5.02551476, -0.92192751,  3.74007331, -3.86954621,  6.12644629])
     #point = np.asarray(point) + p
-    return test.rosenbrock(point)
+    return test.sphere(point)
 
 
 class Function:
