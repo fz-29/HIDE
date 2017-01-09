@@ -204,7 +204,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        soma = DL(num_iterations=5000, dim=50, algo_type=0, n_leaders=5, population_size=25, print_status=True, stats_freq=100, visualize=False)#, vec=[0.85, 1.0, 1.0, 1.0])
+        soma = DL(num_iterations=1000, dim=50, algo_type=0, n_leaders=5, population_size=25, print_status=True, stats_freq=100, visualize=False)#, vec=[0.85, 1.0, 1.0, 1.0])
         val += soma.simulate()[0]
         if print_time:
             print(time.clock() - start)

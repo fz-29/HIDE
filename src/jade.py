@@ -10,44 +10,65 @@ from helpers import get_best_point
 
 
 class JADE(object):
-    def __init__(self, num_iterations=10, CR=0.4, F=0.48, dim=2, population_size=10, print_status=False, visualize=False, f_id=1):
+    def __init__(self, num_iterations=10, dim=2, population_size=10, print_status=False, visualize=False, f_id=1, p=0.2, c=0.1):
         random.seed()
         self.visualize = visualize
         self.print_status = print_status
         self.num_iterations = num_iterations
         self.iteration = 0
-        self.CR = CR
-        self.F = F
         self.population_size = population_size
         self.f_id = f_id
         self.population = Collection(dim=dim, num_points=self.population_size, f_id=f_id)
         self.data = []
+        self.mu_cr = 0.5
+        self.mu_f = 0.5
+        self.A = []
+        self.c = c
+        self.p = p
 
     def iterate(self):
-        shift = []
+        s_f = []
+        s_cr = []
+
         l = get_best_point(self.population.points)
         self.data.append(l.z)
         for ix in xrange(self.population.num_points):
+            CR = self.generate_CR()
+            F = self.generate_F()
+            
             x = self.population.points[ix]
-            [a, b, c] = random.sample(self.population.points, 3)
-            while x == a or x == b or x == c:
-                [a, b, c] = random.sample(self.population.points, 3)
 
-            R = random.random() * x.dim
-            y = copy.deepcopy(x)
+            xp_best = random.choice(sorted(self.population.points, key=lambda x:x.z)[:int(self.population_size * self.p)])
 
-            for iy in xrange(x.dim):
-                ri = random.random()
+            x_r1 = random.choice(self.population.points)
+            while x_r1.coords == x.coords:
+                x_r1 = random.choice(self.population.points)
 
-                if ri < self.CR or iy == R:
-                    y.coords[iy] = l.coords[iy] + self.F * (b.coords[iy] - c.coords[iy])
+            x_r2 = random.choice(self.population.points + self.A)
+            while x_r2.coords == x.coords:
+                x_r2 = random.choice(self.population.points + self.A)
 
-            y.evaluate_point()
-            shift.append((np.asarray(y.coords) - np.asarray(x.coords)).mean())
+            
+            v = copy.deepcopy(x)
 
-            if y.z < x.z:
-                self.population.points[ix] = y
+            for jx in xrange(x.dim):
+                j_rand = np.random.randint(x.dim)
+
+                if np.random.random() < CR or j_rand == jx:
+                    v.coords[jx] = x.coords[jx] + F*(xp_best.coords[jx] - x.coords[jx]) + F*(x_r1.coords[jx] - x_r2.coords[jx])
+
+            v.evaluate_point()
+            if v.z < x.z:
+                self.population.points[ix] = v
+                self.A.append(x)
+                s_f.append(F)
+                s_cr.append(CR)
         self.iteration += 1
+        while len(self.A) > self.population_size:
+            self.A.pop(np.random.randint(len(self.A)))
+
+        self.mu_cr = (1.0 - self.c)*self.mu_cr + self.c*self.mean_A(s_cr)
+        self.mu_f = (1.0 - self.c)*self.mu_f + self.c*self.mean_L(s_f)
         # print np.asarray(shift).mean()
 
 
@@ -68,6 +89,22 @@ class JADE(object):
         print pnt.coords
         return pnt.z, np.asarray(self.data)
 
+    def generate_CR(self):
+        return np.random.normal(self.mu_cr, 0.1)
+
+    def generate_F(self):
+        return np.random.normal(self.mu_f, 0.1)
+
+    def mean_A(self, z):
+        z = np.asarray(z)
+
+        return z.mean()
+
+    def mean_L(self, z):
+        z = np.asarray(z)
+
+        return (z**2).sum()/(float(z.sum()) + 1e-08)
+
 
 if __name__ == '__main__':
     number_of_runs = 10
@@ -76,7 +113,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        de = JADE(num_iterations=2000, dim=10, CR=0.4, F=0.48, population_size=25, print_status=True, visualize=False)
+        de = JADE(num_iterations=1000, dim=50, population_size=50, print_status=True, visualize=False)
         val += de.simulate()[0]
         if print_time:
             print("")
