@@ -15,7 +15,7 @@ def evaluate(point, cec=True, f_id=6):
 
         m = 1
         n = indata.shape[1]
-        f_id = 2
+        f_id = 17   
 
         outdata = np.zeros((1, m), dtype=np.double)
         func(ctypes.c_void_p(indata.ctypes.data), ctypes.c_void_p(outdata.ctypes.data),n,m,f_id)
@@ -37,7 +37,7 @@ class Function:
     def sphere(self, x):
         z = 0
         for i in xrange(len(x)):
-            z += (x[i]-15.0) ** 2
+            z += (x[i]-150.0) ** 2
         return z
 
     def ackley(self, x):

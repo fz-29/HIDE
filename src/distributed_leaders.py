@@ -93,9 +93,26 @@ class DL(object):
 
             R = random.random() * x.dim
             y = copy.deepcopy(x)
+            #ri = random.random()
 
             for iy in xrange(x.dim):
                 ri = random.random()
+
+
+                P = 0.3750
+
+                if ri<P:
+                    y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy] - c.coords[iy])
+                    #y.coords[iy] = x.coords[iy] + self.F*(b.coords[iy] - c.coords[iy])
+                else:
+                    if self.iteration>P/3*self.numIterations:
+                        #y.coords[iy] = a.coords[iy] + self.F*(a.coords[iy] - x.coords[iy])
+                        y.coords[iy] = a.coords[iy] + self.F*(x.coords[iy] - c.coords[iy]) #execution
+                    else:
+                        #y.coords[iy] = l.coords[iy] + self.F*(l.coords[iy]-a.coords[iy])
+                        y.coords[iy] = l.coords[iy] + self.F*(a.coords[iy]-c.coords[iy])   #planning -> optimization of contraction and rela
+
+
 
                 # if ri < self.CR or iy == R:
                 # l = global best, a  = local leader, c = random 
@@ -108,39 +125,44 @@ class DL(object):
                 # E_l = 0.1*a.coords[iy] - 0.05*x.coords[iy]
 
                 # y.coords[iy] = E_g + E_l - 0.5*c.coords[iy]
-                P = 0.3750
-                if False:
-                    if ri>P:
-                        y.coords[iy] = a.coords[iy] + self.F*(x.coords[iy]-c.coords[iy])
-                    else:
-                        y.coords[iy] = x.coords[iy] + self.F*(a.coords[iy] - c.coords[iy])
-                # if self.iteration <self.numIterations/5:
-                #     #2 Neighbour
-                #     # pass
-                #     if ri > P:
-                #         y.coords[iy] = 0.99*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) + (self.F) * (a2.coords[iy] +  x.coords[iy] - c.coords[iy])
+                # P = 0.3750
+                # if False:
+                #     if ri>P:
+                #         y.coords[iy] = a.coords[iy] + self.F*(x.coords[iy]-c.coords[iy])
                 #     else:
-                #         y.coords[iy] = x.coords[iy]
-                else:
-                    #GOVT
-                    # pass
-                    #y.coords[iy] = l.coords[iy] + self.F*(a.coords[iy] - x.coords[iy])
-                    if ri > P:
-                        P1 = 0.02
-                        pr = np.random.random()
-                        pr2 = np.random.random()
-                        if self.iteration>P/3*self.numIterations:
-                            y.coords[iy] = a.coords[iy] + self.F*(x.coords[iy] - c.coords[iy] ) 
-                        else:
-                            y.coords[iy] = l.coords[iy] + self.F*(a.coords[iy]-c.coords[iy])   
-                            ##  y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy]-c.coords[iy])   
-                            #y.coords[iy] = self.vec[0]*l.coords[iy]  + self.vec[1]*a.coords[iy] - self.vec[2]*x.coords[iy] - self.vec[3]*c.coords[iy]
-                    #elif ri>2*P:
-                        #y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy]-c.coords[iy])
-                    else:
-                        y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy] - c.coords[iy])  #+ #self.F*(c.coords[iy])
+                #         y.coords[iy] = x.coords[iy] + self.F*(a.coords[iy] - c.coords[iy])
+                # # if self.iteration <self.numIterations/5:
+                # #     #2 Neighbour
+                # #     # pass
+                # #     if ri > P:
+                # #         y.coords[iy] = 0.99*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) + (self.F) * (a2.coords[iy] +  x.coords[iy] - c.coords[iy])
+                # #     else:
+                # #         y.coords[iy] = x.coords[iy]
+                # else:
+                #     #GOVT
+                #     # pass
+                #     #y.coords[iy] = l.coords[iy] + self.F*(a.coords[iy] - x.coords[iy])
+                #     if ri > P:
+                #         P1 = 0.02
+                #         pr = np.random.random()
+                #         pr2 = np.random.random()
+                #         if self.iteration>P/3*self.numIterations:
+                #             y.coords[iy] = a.coords[iy] + self.F*(x.coords[iy] - c.coords[iy] ) 
+                #         else:
+                #             y.coords[iy] = l.coords[iy] + self.F*(a.coords[iy]-c.coords[iy])   
+                #             ##  y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy]-c.coords[iy])   
+                #             #y.coords[iy] = self.vec[0]*l.coords[iy]  + self.vec[1]*a.coords[iy] - self.vec[2]*x.coords[iy] - self.vec[3]*c.coords[iy]
+                #     #elif ri>2*P:
+                #         #y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy]-c.coords[iy])
+                #     else:
+                #         y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy] - c.coords[iy])  #+ #self.F*(c.coords[iy])
                 # poor
                 # y.coords[iy] = 1.0*self.CR*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) - (self.F) * (a2.coords[iy] -  x.coords[iy] - c.coords[iy]);
+
+
+
+
+
 
             y.evaluate_point()
             shift.append((np.asarray(y.coords) - np.asarray(x.coords)).mean())
