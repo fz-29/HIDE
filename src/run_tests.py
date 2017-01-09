@@ -21,8 +21,8 @@ def log_error(algo, dim, f_id):
 if __name__ == '__main__':
 
 	DIM = int(sys.argv[2])
-	ITER = 10
-	n_runs = 1
+	ITER = 2000
+	n_runs = 40
 	F_ID = int(sys.argv[1])
 
 	values = []
