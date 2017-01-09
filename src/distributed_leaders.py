@@ -132,13 +132,13 @@ class DL(object):
                         if self.iteration>P/3*self.numIterations:
                             y.coords[iy] = a.coords[iy] + self.F*(x.coords[iy] - c.coords[iy] ) 
                         else:
-                            y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy]-c.coords[iy])   
+                            y.coords[iy] = l.coords[iy] + self.F*(a.coords[iy]-c.coords[iy])   
                             ##  y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy]-c.coords[iy])   
                             #y.coords[iy] = self.vec[0]*l.coords[iy]  + self.vec[1]*a.coords[iy] - self.vec[2]*x.coords[iy] - self.vec[3]*c.coords[iy]
                     #elif ri>2*P:
                         #y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy]-c.coords[iy])
                     else:
-                        y.coords[iy] = l.coords[iy] + self.F*(a.coords[iy] - c.coords[iy])  #+ #self.F*(c.coords[iy])
+                        y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy] - c.coords[iy])  #+ #self.F*(c.coords[iy])
                 # poor
                 # y.coords[iy] = 1.0*self.CR*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) - (self.F) * (a2.coords[iy] -  x.coords[iy] - c.coords[iy]);
 
