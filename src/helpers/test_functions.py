@@ -4,7 +4,7 @@ import numpy as np
 import ctypes
 
 
-def evaluate(point, cec=True, f_id=6):
+def evaluate(point, cec=True, f_id=26):
     test = Function()
     if cec:
         lib = ctypes.cdll.LoadLibrary('helpers/objective.so')
@@ -14,7 +14,6 @@ def evaluate(point, cec=True, f_id=6):
 
         m = 1
         n = indata.shape[1]
-        f_id = 30
 
         outdata = np.zeros((1, m), dtype=np.double)
         func(ctypes.c_void_p(indata.ctypes.data), ctypes.c_void_p(outdata.ctypes.data),n,m,f_id)

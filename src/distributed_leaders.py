@@ -102,8 +102,8 @@ class DL(object):
                 P = 0.3750
 
                 if ri<P:
-                    # y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy] - c.coords[iy])
-                    y.coords[iy] = x.coords[iy]# + self.F*(b.coords[iy] - c.coords[iy])
+                    y.coords[iy] = x.coords[iy] #+ self.F*(b.coords[iy] - c.coords[iy])
+                    #y.coords[iy] = x.coords[iy]# + self.F*(b.coords[iy] - c.coords[iy])
                 else:
                     if self.iteration>P/3*self.numIterations:
                         #y.coords[iy] = a.coords[iy] + self.F*(a.coords[iy] - x.coords[iy])
@@ -158,12 +158,6 @@ class DL(object):
                 #         y.coords[iy] = d.coords[iy] + self.F*(b.coords[iy] - c.coords[iy])  #+ #self.F*(c.coords[iy])
                 # poor
                 # y.coords[iy] = 1.0*self.CR*l.coords[iy] + self.F * (a.coords[iy] - x.coords[iy] - c.coords[iy]) - (self.F) * (a2.coords[iy] -  x.coords[iy] - c.coords[iy]);
-
-
-
-
-
-
             y.evaluate_point()
             shift.append((np.asarray(y.coords) - np.asarray(x.coords)).mean())
 
@@ -192,8 +186,8 @@ class DL(object):
         # print('best value of: ' + str(pnt.z) + ' at ' + str(pnt.coords)
         print('Final best value of: ' + str(pnt.z))
         self.data.append(pnt.z)
-        print("")
-        print(pnt.coords)
+        # print("")
+        # print(pnt.coords)
         return pnt.z, np.asarray(self.data)
 
 

@@ -33,9 +33,9 @@ class PSO_DE(object):
     def iterate(self):
         ## DE
 
-        #shift = []
-        l = get_best_point(self.population1.points)
-        #self.data.append(l.z)
+        
+        l = get_best_point_PSODE(self.population1.points, self.population2.points)
+        self.data.append(l.z)
         for ix in xrange(self.population1.num_points):
             x = self.population1.points[ix]
             [a, b, c] = random.sample(self.population1.points, 3)
@@ -92,9 +92,10 @@ class PSO_DE(object):
                 print self.iteration, pnt.z, (get_average_z(self.population1)+get_average_z(self.population2))/2
             self.iterate()
         pnt = get_best_point_PSODE(self.population1.points, self.population2.points)
+        self.data.append(pnt.z)
         print("Final best value: " + str(pnt.z))
-        print pnt.coords
-        return pnt.z
+        # print pnt.coords
+        return pnt.z, np.asarray(self.data)
 
 
 if __name__ == '__main__':

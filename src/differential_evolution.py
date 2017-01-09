@@ -65,7 +65,7 @@ class DE(object):
         pnt = get_best_point(self.population.points)
         print("Final best value: " + str(pnt.z))
         self.data.append(pnt.z)
-        print pnt.coords
+        # print pnt.coords
         return pnt.z, np.asarray(self.data)
 
 
