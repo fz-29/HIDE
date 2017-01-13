@@ -4,7 +4,7 @@ import numpy as np
 import ctypes
 
 
-def evaluate(point, cec=True, f_id=26):
+def evaluate(point, cec=False, f_id=26):
     test = Function()
     if cec:
         lib = ctypes.cdll.LoadLibrary('helpers/objective.so')
@@ -16,6 +16,7 @@ def evaluate(point, cec=True, f_id=26):
         n = indata.shape[1]
 
         outdata = np.zeros((1, m), dtype=np.double)
+        # print f_id, "FUNCTION------------------"
         func(ctypes.c_void_p(indata.ctypes.data), ctypes.c_void_p(outdata.ctypes.data),n,m,f_id)
     
         if not np.isnan(outdata[0, 0]):
@@ -25,7 +26,7 @@ def evaluate(point, cec=True, f_id=26):
             return 0.0
     #p = np.asarray([ 7.37045969,  4.43268017, -0.69326308, -0.32644465,  0.36939976, -5.02551476, -0.92192751,  3.74007331, -3.86954621,  6.12644629])
     #point = np.asarray(point) + p
-    return test.sphere(point)
+    return test.ackley(point)
 
 
 class Function:

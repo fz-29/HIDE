@@ -113,7 +113,7 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        de = JADE(num_iterations=1000, dim=50, population_size=50, print_status=True, visualize=False)
+        de = JADE(num_iterations=1000, dim=10, population_size=50, print_status=True, visualize=False, f_id=10)
         val += de.simulate()[0]
         if print_time:
             print("")

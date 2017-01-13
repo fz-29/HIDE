@@ -1,0 +1,6 @@
+JADE Dim : 10 F_ID : 19
+JADE Dim : 30 F_ID : 17
+PSODE Dim : 100 F_ID : 16
+JADE Dim : 100 F_ID : 16
+PSODE Dim : 50 F_ID : 17
+JADE Dim : 50 F_ID : 17
