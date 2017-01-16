@@ -23,6 +23,8 @@ if __name__ == '__main__':
 	DIM = int(sys.argv[2])
 	ITER = 2000
 	n_runs = 10
+	# ITER = 1
+	# n_runs = 1
 	F_ID = int(sys.argv[1])
 
 	values = []
@@ -32,7 +34,7 @@ if __name__ == '__main__':
 	
 	try:
 		for ix in range(n_runs):
-			algo = DE(num_iterations=min(40*DIM,ITER), dim=DIM, CR=0.4, F=0.48, population_size=40, print_status=False, visualize=False, f_id=F_ID)
+			algo = DE(num_iterations=min(40*DIM,ITER), dim=DIM, f_id=F_ID, CR=0.4, F=0.48, population_size=40, print_status=False, visualize=False)
 			val, d = algo.simulate()
 			values.append(val)
 			data.append(d)
@@ -82,7 +84,7 @@ if __name__ == '__main__':
 
 	try:
 		for ix in range(n_runs):
-			algo = PSO_DE(num_iterations=ITER, dim=DIM, population_size=40, phi_p=2.00, phi_g=2.00, w=0.7, CR=0.48, F=0.5, print_status=True, visualize=False)
+			algo = PSO_DE(num_iterations=min(40*DIM,ITER), dim=DIM, f_id=F_ID, population_size=40, phi_p=2.00, phi_g=2.00, w=0.7, CR=0.48, F=0.5, print_status=False, visualize=False)
 			val, d = algo.simulate()
 			values.append(val)
 			data.append(d)
@@ -103,7 +105,7 @@ if __name__ == '__main__':
 
 	try:
 		for ix in range(n_runs):
-			algo = JADE(num_iterations=ITER, dim=DIM, population_size=40, print_status=False, visualize=False)
+			algo = JADE(num_iterations=min(40*DIM,ITER), dim=DIM, f_id=F_ID, population_size=40, print_status=False, visualize=False)
 			val, d = algo.simulate()
 			values.append(val)
 			data.append(d)

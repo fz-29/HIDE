@@ -10,8 +10,9 @@ from helpers import get_best_point, get_best_point_PSODE
 
 
 class PSO_DE(object):
-    def __init__(self, dim=2, num_iterations=10, phi_p=2.00, phi_g=2.00, w=0.7, CR=0.48, F=0.5, population_size=40, print_status=False, visualize=False):
+    def __init__(self, dim=2, num_iterations=10, phi_p=2.00, phi_g=2.00, w=0.7, CR=0.48, F=0.5, population_size=40, print_status=False, visualize=False, f_id=1):
         random.seed()
+        self.f_id = f_id
         self.visualize = visualize
         self.print_status = print_status
         self.population_size = population_size
@@ -27,8 +28,8 @@ class PSO_DE(object):
         self.phi_g = phi_g
         self.w = w
         #POPULATIONS
-        self.population1 = Collection(dim=dim, num_points=(self.population_size)/2) #DE
-        self.population2 = Collection(dim=dim, num_points=(self.population_size)/2) #PSO
+        self.population1 = Collection(dim=dim, num_points=(self.population_size)/2, f_id=self.f_id) #DE
+        self.population2 = Collection(dim=dim, num_points=(self.population_size)/2, f_id=self.f_id) #PSO
 
     def iterate(self):
         ## DE
@@ -105,8 +106,8 @@ if __name__ == '__main__':
 
     for i in xrange(number_of_runs):
         start = time.clock()
-        de = PSO_DE(dim=10, population_size=100, num_iterations=200, phi_p=2.00, phi_g=2.00, w=0.7, CR=0.48, F=0.5, print_status=True, visualize=False)
-        val += de.simulate()
+        de = PSO_DE(dim=10, population_size=100, num_iterations=200, phi_p=2.00, phi_g=2.00, w=0.7, CR=0.48, F=0.5, print_status=True, visualize=False, f_id=21)
+        val += de.simulate()[0]
         if print_time:
             print("")
             print(time.clock() - start)

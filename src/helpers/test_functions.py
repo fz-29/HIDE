@@ -4,7 +4,7 @@ import numpy as np
 import ctypes
 
 
-def evaluate(point, cec=False, f_id=26):
+def evaluate(point, cec=True, f_id=None):
     test = Function()
     if cec:
         lib = ctypes.cdll.LoadLibrary('helpers/objective.so')
