@@ -1,4 +1,4 @@
-a=16
+a=20
 
 while [ $a -lt 31 ]
 do
