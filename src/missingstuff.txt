@@ -1,0 +1,65 @@
+
+#######################
+ DIM : 10    (missing npy files)
+Empty DataFrame
+Columns: []
+Index: []
+
+#######################
+ DIM : 30    (missing npy files)
+Empty DataFrame
+Columns: []
+Index: []
+
+#######################
+ DIM : 50    (missing npy files)
+     Algo  Fn
+0      DE  26
+1      DE  27
+2      DE  28
+3      DE  29
+4      DE  30
+5   PSODE  26
+6   PSODE  27
+7   PSODE  28
+8   PSODE  29
+9   PSODE  30
+10   JADE  26
+11   JADE  27
+12   JADE  28
+13   JADE  29
+14   JADE  30
+
+#######################
+ DIM : 100    (missing npy files)
+     Algo  Fn
+0      DE  21
+1      DE  22
+2      DE  23
+3      DE  24
+4      DE  25
+5      DE  26
+6      DE  27
+7      DE  28
+8      DE  29
+9      DE  30
+10  PSODE  21
+11  PSODE  22
+12  PSODE  23
+13  PSODE  24
+14  PSODE  25
+15  PSODE  26
+16  PSODE  27
+17  PSODE  28
+18  PSODE  29
+19  PSODE  30
+20   JADE  21
+21   JADE  22
+22   JADE  23
+23   JADE  24
+24   JADE  25
+25   JADE  26
+26   JADE  27
+27   JADE  28
+28   JADE  29
+29   JADE  30
