@@ -19,22 +19,10 @@ Index: []
 
 #######################
  DIM : 100    (missing npy files)
-     Algo  Fn
-0      DE  21
-1      DE  22
-2      DE  23
-3      DE  24
-4      DE  25
-5      DE  26
-6   PSODE  21
-7   PSODE  22
-8   PSODE  23
-9   PSODE  24
-10  PSODE  25
-11  PSODE  26
-12   JADE  21
-13   JADE  22
-14   JADE  23
-15   JADE  24
-16   JADE  25
-17   JADE  26
+    Algo  Fn
+0     DE  21
+1     DE  22
+2  PSODE  21
+3  PSODE  22
+4   JADE  21
+5   JADE  22
