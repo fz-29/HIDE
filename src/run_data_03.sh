@@ -1,6 +1,6 @@
-a=11
+a=26
 
-while [ $a -lt 21 ]
+while [ $a -lt 31 ]
 do
 	# python run_tests.py $a 10
 	# python run_tests.py $a 30
