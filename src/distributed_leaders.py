@@ -102,7 +102,7 @@ class DL(object):
                 P = 0.3750
 
                 if ri<P:
-                    y.coords[iy] = x.coords[iy] #+ self.F*(b.coords[iy] - c.coords[iy])
+                    y.coords[iy] = x.coords[iy] + self.F*(b.coords[iy] - c.coords[iy])
                     #y.coords[iy] = x.coords[iy]# + self.F*(b.coords[iy] - c.coords[iy])
                 else:
                     if self.iteration>P/3*self.numIterations:
