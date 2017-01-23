@@ -3,7 +3,7 @@ import pandas as pd
 
 direc = 'data/'
 # Add algos here
-algos = ['DE','PSODE','JADE']
+algos = ['DE','PSODE','JADE','DL']
 fns = [i for i in range(1,31)]
 
 # we used following dimensions

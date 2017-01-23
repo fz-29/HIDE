@@ -1,28 +1,136 @@
 
 #######################
  DIM : 10    (missing npy files)
-Empty DataFrame
-Columns: []
-Index: []
+   Algo  Fn
+0    DL   1
+1    DL   2
+2    DL   3
+3    DL   4
+4    DL   5
+5    DL   6
+6    DL   7
+7    DL   8
+8    DL   9
+9    DL  10
+10   DL  11
+11   DL  12
+12   DL  13
+13   DL  14
+14   DL  15
+15   DL  16
+16   DL  17
+17   DL  18
+18   DL  19
+19   DL  20
+20   DL  21
+21   DL  22
+22   DL  23
+23   DL  24
+24   DL  25
+25   DL  26
+26   DL  27
+27   DL  28
+28   DL  29
+29   DL  30
 
 #######################
  DIM : 30    (missing npy files)
-Empty DataFrame
-Columns: []
-Index: []
+   Algo  Fn
+0    DL   1
+1    DL   2
+2    DL   3
+3    DL   4
+4    DL   5
+5    DL   6
+6    DL   7
+7    DL   8
+8    DL   9
+9    DL  10
+10   DL  11
+11   DL  12
+12   DL  13
+13   DL  14
+14   DL  15
+15   DL  16
+16   DL  17
+17   DL  18
+18   DL  19
+19   DL  20
+20   DL  21
+21   DL  22
+22   DL  23
+23   DL  24
+24   DL  25
+25   DL  26
+26   DL  27
+27   DL  28
+28   DL  29
+29   DL  30
 
 #######################
  DIM : 50    (missing npy files)
-Empty DataFrame
-Columns: []
-Index: []
+   Algo  Fn
+0    DL   1
+1    DL   2
+2    DL   3
+3    DL   4
+4    DL   5
+5    DL   6
+6    DL   7
+7    DL   8
+8    DL   9
+9    DL  10
+10   DL  11
+11   DL  12
+12   DL  13
+13   DL  14
+14   DL  15
+15   DL  16
+16   DL  17
+17   DL  18
+18   DL  19
+19   DL  20
+20   DL  21
+21   DL  22
+22   DL  23
+23   DL  24
+24   DL  25
+25   DL  26
+26   DL  27
+27   DL  28
+28   DL  29
+29   DL  30
 
 #######################
  DIM : 100    (missing npy files)
-    Algo  Fn
-0     DE  21
-1     DE  22
-2  PSODE  21
-3  PSODE  22
-4   JADE  21
-5   JADE  22
+   Algo  Fn
+0    DL   1
+1    DL   2
+2    DL   3
+3    DL   4
+4    DL   5
+5    DL   6
+6    DL   7
+7    DL   8
+8    DL   9
+9    DL  10
+10   DL  11
+11   DL  12
+12   DL  13
+13   DL  14
+14   DL  15
+15   DL  16
+16   DL  17
+17   DL  18
+18   DL  19
+19   DL  20
+20   DL  21
+21   DL  22
+22   DL  23
+23   DL  24
+24   DL  25
+25   DL  26
+26   DL  27
+27   DL  28
+28   DL  29
+29   DL  30
