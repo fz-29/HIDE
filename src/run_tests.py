@@ -31,7 +31,7 @@ if __name__ == '__main__':
 	data = []
 
 	#DE
-	
+	"""
 	try:
 		for ix in range(n_runs):
 			algo = DE(num_iterations=min(40*DIM,ITER), dim=DIM, f_id=F_ID, CR=0.4, F=0.48, population_size=40, print_status=False, visualize=False)
@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
 	try:
 		for ix in range(n_runs):
-			algo = DL(num_iterations=ITER, dim=DIM, algo_type=0, n_leaders=5, population_size=25, print_status=False, stats_freq=10, visualize=False, f_id=F_ID)#, vec=[0.85, 1.0, 1.0, 1.0])
+			algo = DL(num_iterations=ITER, dim=DIM, f_id=F_ID, algo_type=0, n_leaders=5, population_size=25, print_status=False, stats_freq=10, visualize=False)#, vec=[0.85, 1.0, 1.0, 1.0])
 			val, d = algo.simulate()
 			values.append(val)
 			data.append(d)
@@ -76,6 +76,7 @@ if __name__ == '__main__':
 		f.write(error)
 		f.write("\n")
 		f.close()
+
 	"""
 
 	#PSODE
@@ -119,7 +120,9 @@ if __name__ == '__main__':
 		log_success("JADE", DIM, F_ID)
 	except:
 		log_error("JADE", DIM, F_ID)
-
+	"""	
+	
 	print "********************************\n********************************"
 	print "Complete : D = " + str(DIM) + " F_ID = " + str(F_ID)
 	print "********************************\n********************************"
+	
