@@ -19,7 +19,6 @@ for dim in dims:
 			if (not isfile(filename1)) or (not isfile(filename2)):
 				remaining[str(dim)].append({'Algo' : str(algo), 'Fn' : str(fn)})
 				
-
 for dim in dims:	
 	print("\n#######################\n DIM : " + str(dim) + "    (missing npy files)")
 	df = pd.DataFrame(remaining[str(dim)])
