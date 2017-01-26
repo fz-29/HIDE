@@ -10,7 +10,7 @@ if __name__ == '__main__':
 	values = 'values.npy'
 	graph = 'graph.npy'
 
-	algos = ['DE', 'JADE', 'PSODE']
+	algos = ['DE', 'JADE', 'PSODE','DL']
 
 	vals = []
 	plots = []
@@ -22,8 +22,14 @@ if __name__ == '__main__':
 		vals.append(file_values.min())
 		plots.append(file_graph[file_values.argmin()])
 
+	f = plt.figure(0)
 	for ix in range(len(plots)):
 		plt.plot(plots[ix][:100])
 		print vals[ix]
 	plt.legend(algos)
-	plt.show()
+	plt.xlabel("No. of iterations")
+	plt.ylabel("Objective function value")
+	plt.title("function:" + str(f_id) + ", dimension:" + str(dim))
+	# plt.show()
+
+	f.savefig('./plots_data/plot' + base_name + 'save.jpeg')

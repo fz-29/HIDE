@@ -23,7 +23,7 @@ if __name__ == '__main__':
 		plots.append(file_graph[file_values.argmin()])
 
 	for ix in range(len(plots)):
-		plt.plot(plots[ix][:100])
+		plt.plot(plots[ix][:])
 		print vals[ix]
 	plt.legend(algos)
 	plt.show()
