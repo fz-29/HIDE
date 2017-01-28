@@ -1,6 +1,8 @@
 import numpy as np
 from matplotlib import pyplot as plt
+from random import uniform
 import sys
+
 
 if __name__ == '__main__':
 	f_id = sys.argv[1]
@@ -21,8 +23,20 @@ if __name__ == '__main__':
 
 		vals.append(file_values.min())
 		plots.append(file_graph[file_values.argmin()])
+	
+	# normalization
+	for ix in range(len(plots)):
+		z = plots[ix][0]
+		for j in xrange(1,101,1):
+			if(plots[ix][j] > z):
+				plots[ix][j] = z
+			z = plots[ix][j]	
 
 	f = plt.figure(0)
+	
+	
+	
+	
 	for ix in range(len(plots)):
 		plt.plot(plots[ix][:100])
 		print vals[ix]
@@ -33,3 +47,4 @@ if __name__ == '__main__':
 	# plt.show()
 
 	f.savefig('./plots_data/plot' + base_name + 'save.jpeg')
+	#f.savefig('./plot' + base_name + 'save.jpeg')
