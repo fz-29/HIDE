@@ -36,14 +36,18 @@ if __name__ == '__main__':
 	
 	
 	
-	
+	legend_algos = ['DE', 'JADE', 'PSODE', 'HIDE']
+	markers = ['-','-', '-', '--'] 
+	color	 = ['c', 'g','y' ,'k']
+	line_width = [1.2,1.2,1.3, 2.1]
 	for ix in range(len(plots)):
-		plt.plot(plots[ix][:100])
+		plt.plot(plots[ix][:50], color = color[ix], ls = markers[ix], linewidth = line_width[ix])
 		print vals[ix]
-	plt.legend(algos)
-	plt.xlabel("No. of iterations")
+		
+	plt.legend(legend_algos)
+	plt.xlabel("Number of iterations")
 	plt.ylabel("Objective function value")
-	plt.title("function:" + str(f_id) + ", dimension:" + str(dim))
+	plt.title("Function:" + str(f_id) + ", Dimension:" + str(dim))
 	# plt.show()
 
 	f.savefig('./plots_data/plot' + base_name + 'save.jpeg')
